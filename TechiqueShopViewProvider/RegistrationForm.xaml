@@ -1,0 +1,53 @@
+﻿<Window x:Class="TechiqueShopViewProvider.RegistrationForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechiqueShopViewProvider"
+        mc:Ignorable="d"
+        Title="Регистрация" Height="235.469" Width="390.206">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10,10,4.206,10">
+            <TextBlock Text="Регистрация" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Имя:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBox Name="name" MaxLength="30" MinWidth="300px"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Фамилия:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBox Name="secondName" MaxLength="50" MinWidth="300px"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Отчество:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBox Name="pathronic" MaxLength="30" MinWidth="300px"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Телефон:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBox Name="tel" MaxLength="30" MinWidth="300px"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="E-mail:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBox Name="email" MaxLength="30" MinWidth="300px"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Пароль:"  MinWidth="55px" TextAlignment="Right"/>
+                <PasswordBox Name="password" MaxLength="30" MinWidth="300px"></PasswordBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Роль:" MinWidth="55px" TextAlignment="Right"/>
+                <ComboBox Name="userType" MinWidth="300px">
+                    <TextBlock>Заказчик</TextBlock>
+                    <TextBlock>Поставщик</TextBlock>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button IsDefault="True" Margin="3" Content="Зарегестрироваться"></Button>
+                <Button IsCancel="True" Margin="3" Content="Отменить"></Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
