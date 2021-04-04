@@ -17,7 +17,7 @@ namespace TechiqueShopBusinessLogic.BindingModels
         [DisplayName("Отчество")]
         public string Patronymic { get; set; }
         [DisplayName("Телефон")]
-        public int Telephone { get; set; }
+        public string Telephone { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
         [DisplayName("Пароль")]
