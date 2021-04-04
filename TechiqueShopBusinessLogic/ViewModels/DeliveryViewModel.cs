@@ -10,9 +10,10 @@ namespace TechiqueShopBusinessLogic.BindingModels
     public class DeliveryViewModel
     {
         public int? Id { get; set; }
-        [DisplayName("Время закупки")]
+        [DisplayName("Название поставки")]
+        public string DeliveryName { get; set; }
+        [DisplayName("Дата закупки")]
         public DateTime? Date { get; set; }
-        [DisplayName("Стоимость")]
-        public decimal Price { get; set; }
+        public Dictionary<int, (string, int)> DeliveryComponents { get; set; }
     }
 }

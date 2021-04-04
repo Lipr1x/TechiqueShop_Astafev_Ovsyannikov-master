@@ -11,7 +11,9 @@ namespace TechiqueShopDatabaseImplement.Models
         public int Id { get; set; }
         public int ProviderId { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public string DeliveryName { get; set; }
+        [Required]
+        public DateTime? Date { get; set; }
         [Required]
         public decimal Price { get; set; }
         [ForeignKey("DeliveryId")]

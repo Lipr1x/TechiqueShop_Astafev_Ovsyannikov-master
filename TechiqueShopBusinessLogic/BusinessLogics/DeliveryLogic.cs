@@ -29,8 +29,8 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
         {
             var element = _deliveryStorage.GetElement(new DeliveryBindingModel
             {
-                Date = model.Date,
-                Price = model.Price
+                DeliveryName = model.DeliveryName,
+                Date = model.Date
             });
             if (element != null && element.Id != model.Id)
             {

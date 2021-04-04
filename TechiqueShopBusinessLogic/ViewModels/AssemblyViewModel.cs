@@ -14,5 +14,6 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public string AssemblyName { get; set; }
         [DisplayName("Цена")]
         public decimal Price { get; set; }
+        public Dictionary<int, (string, int)> AssemblyComponents { get; set; }
     }
 }
