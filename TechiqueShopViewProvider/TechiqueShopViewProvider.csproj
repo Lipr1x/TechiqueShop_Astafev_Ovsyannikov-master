@@ -221,6 +221,10 @@
       <Project>{9444e0ca-86a3-4d83-87cf-3a8cf673d2ca}</Project>
       <Name>TechiqueShopDatabaseImplement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TechiqueShopViewCustomer\TechiqueShopViewCustomer.csproj">
+      <Project>{2ff06198-a997-49c5-9c57-4e236e8441e9}</Project>
+      <Name>TechiqueShopViewCustomer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

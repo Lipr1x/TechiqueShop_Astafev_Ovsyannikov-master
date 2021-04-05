@@ -158,20 +158,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="CreateOrderForm.xaml.cs">
+      <DependentUpon>CreateOrderForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GetListForm.xaml.cs">
+      <DependentUpon>GetListForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GetReportForm.xaml.cs">
+      <DependentUpon>GetReportForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SupplyForm.xaml.cs">
+      <DependentUpon>SupplyForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TechniqueForm.xaml.cs">
+      <DependentUpon>TechniqueForm.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindowCustomer.xaml.cs">
+      <DependentUpon>MainWindowCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderForm.xaml.cs">
+      <DependentUpon>OrderForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -207,6 +220,36 @@
       <Project>{9444e0ca-86a3-4d83-87cf-3a8cf673d2ca}</Project>
       <Name>TechiqueShopDatabaseImplement</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="CreateOrderForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GetListForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GetReportForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindowCustomer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrderForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplyForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TechniqueForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

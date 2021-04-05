@@ -12,7 +12,7 @@ namespace TechiqueShopDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TechiqueShopDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TechiqueShopDatabase;Integrated Security=False;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TechiqueShopViewCustomer;
 using Unity;
 
 namespace TechiqueShopViewProvider
@@ -32,6 +33,11 @@ namespace TechiqueShopViewProvider
         {
             RegistrationForm form = Container.Resolve<RegistrationForm>();
 
+            form.Show();
+        }
+        private void cust_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowCustomer form = Container.Resolve<MainWindowCustomer>();
             form.Show();
         }
 

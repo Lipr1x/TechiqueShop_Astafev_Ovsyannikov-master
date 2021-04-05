@@ -7,19 +7,10 @@
         mc:Ignorable="d"
          Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-
         <Menu Height="25" VerticalAlignment="Top">
-            <MenuItem Header="Регистрация"></MenuItem>
+            <MenuItem Header="Комплектующие"></MenuItem>
             <MenuItem Header="Комплектующие" ></MenuItem>
-            <MenuItem Header="View" ></MenuItem>
+            <MenuItem Header="Выйти" Click="exit_Button"></MenuItem>
         </Menu>
     </Grid>
 </Window>

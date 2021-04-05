@@ -28,10 +28,11 @@ namespace TechiqueShopViewProvider
             InitializeComponent();
         }
 
-        private void Button_Provider(object sender, RoutedEventArgs e)
+        private void exit_Button(object sender, RoutedEventArgs e)
         {
-            RegistrationForm form = Container.Resolve<RegistrationForm>();
+            AuthorizationForm form = Container.Resolve<AuthorizationForm>();
             form.Show();
+            this.Close();
         }
     }
 }
