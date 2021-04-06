@@ -22,13 +22,40 @@ namespace TechiqueShopViewProvider
     public partial class MainWindow : Window
     {
         [Dependency]
-        public new IUnityContainer Container { get; set; }
+        public IUnityContainer Container { get; set; }
         public MainWindow()
         {
             InitializeComponent();
         }
+        private void Component_Button(object sender, RoutedEventArgs e)
+        {
+            ComponentForm form = Container.Resolve<ComponentForm>();
+            form.ShowDialog();
+        }
+        private void Assembly_Button(object sender, RoutedEventArgs e)
+        {
+            AssemblyForm form = Container.Resolve<AssemblyForm>();
+            form.Show();
+        }
 
-        private void exit_Button(object sender, RoutedEventArgs e)
+        private void Delivery_Button(object sender, RoutedEventArgs e)
+        {
+            DeliveryForm form = Container.Resolve<DeliveryForm>();
+            form.Show();
+        }
+
+        private void GetList_Button(object sender, RoutedEventArgs e)
+        {
+            GetListForm form = Container.Resolve<GetListForm>();
+            form.Show();
+        }
+
+        private void GetReport_Button(object sender, RoutedEventArgs e)
+        {
+            GetReportForm form = Container.Resolve<GetReportForm>();
+            form.Show();
+        }
+        private void Exit_Button(object sender, RoutedEventArgs e)
         {
             AuthorizationForm form = Container.Resolve<AuthorizationForm>();
             form.Show();
