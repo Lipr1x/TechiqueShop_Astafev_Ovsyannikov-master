@@ -167,6 +167,9 @@
     <Compile Include="ComponentForm.xaml.cs">
       <DependentUpon>ComponentForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateAssemblyForm.xaml.cs">
+      <DependentUpon>CreateAssemblyForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CreateComponentForm.xaml.cs">
       <DependentUpon>CreateComponentForm.xaml</DependentUpon>
     </Compile>
@@ -191,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComponentForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateAssemblyForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -45,8 +45,7 @@ namespace TechiqueShopViewProvider
                 {
                     componentsGrid.ItemsSource = list;
                     componentsGrid.ColumnWidth = DataGridLength.Auto;
-                    var columns = componentsGrid.Columns;
-                    //dataGridView.Columns[1].Visibility = Visibility.Collapsed;
+                    //componentsGrid.Columns[1].Visibility = Visibility.Collapsed;
                 }
             }
             catch (Exception ex)
@@ -75,6 +74,8 @@ namespace TechiqueShopViewProvider
             {
                 CreateComponentForm form = Container.Resolve<CreateComponentForm>();
                 form.Id = (int)((ComponentViewModel)componentsGrid.SelectedItem).Id;
+                form.name.Text = ((ComponentViewModel)componentsGrid.SelectedItem).ComponentName;
+                form.price.Text = ((ComponentViewModel)componentsGrid.SelectedItem).Price.ToString();
                 if (form.ShowDialog() == true)
                 {
                     LoadData();
@@ -93,10 +94,10 @@ namespace TechiqueShopViewProvider
             {
                 if (MessageBox.Show("Удалить компонент?", "Вопрос", MessageBoxButton.YesNo,
                MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    int id = Convert.ToInt32(((ComponentViewModel)componentsGrid.SelectedItem).Id);
+                { 
                     try
                     {
+                        int id = Convert.ToInt32(((ComponentViewModel)componentsGrid.SelectedItem).Id);
                         logic.Delete(new ComponentBindingModel { Id = id });
                     }
                     catch (Exception ex)

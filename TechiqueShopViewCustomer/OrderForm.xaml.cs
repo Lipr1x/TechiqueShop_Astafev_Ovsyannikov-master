@@ -24,8 +24,8 @@ namespace TechiqueShopViewCustomer
     public partial class OrderForm : Window
     {
         [Dependency]
-        public new IUnityContainer Container { get; set; }
-        TechiqueShopDatabase db;
+        public IUnityContainer Container { get; set; }
+        private readonly TechiqueShopDatabase db;
         public OrderForm()
         {
             InitializeComponent();
@@ -42,22 +42,22 @@ namespace TechiqueShopViewCustomer
             db.Dispose();
         }
 
-        private void updateButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             db.SaveChanges();
         }
-        private void createButton_Click(object sender, RoutedEventArgs e)
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             CreateOrderForm form = Container.Resolve<CreateOrderForm>();
             form.Show();
         }
-        private void changeButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
             CreateOrderForm form = Container.Resolve<CreateOrderForm>(); ;
             form.Show();
         }
 
-        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (ordersGrid.SelectedItems.Count > 0)
             {

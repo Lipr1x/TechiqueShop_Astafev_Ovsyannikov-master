@@ -53,7 +53,8 @@ namespace TechiqueShopViewProvider
                 {
                     Id = id,
                     ComponentName = name.Text,
-                    Price = Convert.ToInt32(price.Text)
+                    Price = Convert.ToInt32(price.Text),
+                    UserId = 1
                 });
                 this.DialogResult = true;
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение");

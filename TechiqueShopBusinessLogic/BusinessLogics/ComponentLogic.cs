@@ -30,11 +30,12 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             var element = _componentStorage.GetElement(new ComponentBindingModel
             {
                 ComponentName = model.ComponentName,
-                Price = model.Price
+                Price = model.Price,
+                UserId = model.UserId
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new Exception("Телефон или Email уже был зарегестрирован!");
+                throw new Exception("Компонент уже был зарегестрирован!");
             }
             if (model.Id.HasValue)
             {

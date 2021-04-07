@@ -115,7 +115,7 @@ namespace TechiqueShopViewProvider
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!", "Ошибка");
+                MessageBox.Show(ex.Message, "Ошибка");
             }
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)

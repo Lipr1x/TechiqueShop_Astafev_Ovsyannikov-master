@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewProvider"
         mc:Ignorable="d"
-        Title="AssemblyForm" Height="450" Width="800">
+        Title="Сборки" Height="400" Width="610">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"></ColumnDefinition>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Margin="5"  BorderBrush="Black" BorderThickness="1">
+            <DataGrid x:Name="dataGridView" AutoGenerateColumns="True" IsReadOnly="True">
+            </DataGrid>
+        </Border>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button x:Name="AddButton" Margin="5" Click="AddButton_Click">Добавить</Button>
+            <Button x:Name="ChangeButton" Margin="5" Click="ChangeButton_Click">Изменить</Button>
+            <Button x:Name="DeleteButton" Margin="5" Click="DeleteButton_Click">Удалить</Button>
+            <Button x:Name="UpdateButton" Margin="5" Click="UpdateButton_Click">Обновить</Button>
+        </StackPanel>
     </Grid>
 </Window>

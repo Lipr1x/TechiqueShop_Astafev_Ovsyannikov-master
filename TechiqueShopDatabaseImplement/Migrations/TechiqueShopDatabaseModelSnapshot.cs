@@ -384,7 +384,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Provider", "Provider")
                         .WithMany("Assemblies")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -423,7 +423,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Provider", "Provider")
                         .WithMany("Components")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -432,7 +432,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Provider", "Provider")
                         .WithMany("Deliveries")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -456,7 +456,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("GetTechniques")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -465,7 +465,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -474,7 +474,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("Supplies")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

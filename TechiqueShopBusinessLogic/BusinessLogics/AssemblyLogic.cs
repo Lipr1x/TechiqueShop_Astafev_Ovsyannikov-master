@@ -30,11 +30,12 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             var element = _assemblyStorage.GetElement(new AssemblyBindingModel
             {
                 AssemblyName = model.AssemblyName,
-                Price = model.Price
+                Price = model.Price,
+                UserId = model.UserId
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new Exception("Телефон или Email уже был зарегестрирован!");
+                throw new Exception("Такая сборка уже есть!");
             }
             if (model.Id.HasValue)
             {

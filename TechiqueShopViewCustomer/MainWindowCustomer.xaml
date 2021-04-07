@@ -8,12 +8,12 @@
         Title="Главная форма" Height="450" Width="800">
     <Grid>
         <Menu Height="30" VerticalAlignment="Top">
-            <MenuItem Header="Заказы" Click="order_Button" FontSize="20"></MenuItem>
-            <MenuItem Header="Поставки" Click="supply_Button" FontSize="20"></MenuItem>
-            <MenuItem Header="Техника" Click="technique_Button" FontSize="20"></MenuItem>
-            <MenuItem Header="Получение списка" Click="getList_Button" FontSize="20"></MenuItem>
-            <MenuItem Header="Отчет" Click="getReport_Button" FontSize="20" ></MenuItem>
-            <MenuItem Header="Выйти" Click="exit_Button" FontSize="20"></MenuItem>
+            <MenuItem Header="Заказы" Click="Order_Button" FontSize="20"></MenuItem>
+            <MenuItem Header="Поставки" Click="Supply_Button" FontSize="20"></MenuItem>
+            <MenuItem Header="Техника" Click="Technique_Button" FontSize="20"></MenuItem>
+            <MenuItem Header="Получение списка" Click="GetList_Button" FontSize="20"></MenuItem>
+            <MenuItem Header="Отчет" Click="GetReport_Button" FontSize="20" ></MenuItem>
+            <MenuItem Header="Выйти" Click="Exit_Button" FontSize="20"></MenuItem>
         </Menu>
     </Grid>
 </Window>

@@ -10,7 +10,7 @@
         <CollectionViewSource x:Key="componentViewSource"/>
     </Window.Resources>
     <Grid>
-        <DataGrid x:Name="componentsGrid" Width="310" AutoGenerateColumns="True" HorizontalAlignment="Left">
+        <DataGrid x:Name="componentsGrid" Width="310" IsReadOnly="True" AutoGenerateColumns="True"  HorizontalAlignment="Left">
         </DataGrid>
         <StackPanel HorizontalAlignment="Right" Width="90" Margin="20" Orientation="Vertical">
             <Button x:Name="CreateButton" Content="Создать" Margin="0 0 0 10" Click="CreateButton_Click" />

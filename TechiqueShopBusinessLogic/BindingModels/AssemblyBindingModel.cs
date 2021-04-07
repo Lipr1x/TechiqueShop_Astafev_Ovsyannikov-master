@@ -9,6 +9,7 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public int? Id { get; set; }
         public string AssemblyName { get; set; }
         public decimal Price { get; set; }
-        public Dictionary<int, (string, int)> AssemblyComponents { get; set; }
+        public Dictionary<int, string> AssemblyComponents { get; set; }
+        public int UserId { get; set; }
     }
 }

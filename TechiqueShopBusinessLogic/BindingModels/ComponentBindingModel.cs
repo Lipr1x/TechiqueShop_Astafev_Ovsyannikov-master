@@ -8,6 +8,7 @@ namespace TechiqueShopBusinessLogic.BindingModels
     {
         public int? Id { get; set; }
         public string ComponentName { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
+        public int UserId { get; set; }
     }
 }

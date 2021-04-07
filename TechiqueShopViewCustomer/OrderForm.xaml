@@ -14,10 +14,10 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel HorizontalAlignment="Right" Width="90" Margin="20" Orientation="Vertical">
-            <Button x:Name="createButton" Content="Создать" Margin="0 0 0 10" Click="createButton_Click" />
-            <Button x:Name="changeButton" Content="Изменить" Margin="0 0 0 10" Click="changeButton_Click" />
-            <Button x:Name="updateButton" Content="Обновить" Margin="0 0 0 10" Click="updateButton_Click" />
-            <Button x:Name="deleteButton" Content="Удалить" Margin="0 0 0 10" Click="deleteButton_Click" />
+            <Button x:Name="CreateButton" Content="Создать" Margin="0 0 0 10" Click="CreateButton_Click" />
+            <Button x:Name="ChangeButton" Content="Изменить" Margin="0 0 0 10" Click="ChangeButton_Click" />
+            <Button x:Name="UpdateButton" Content="Обновить" Margin="0 0 0 10" Click="UpdateButton_Click" />
+            <Button x:Name="DeleteButton" Content="Удалить" Margin="0 0 0 10" Click="DeleteButton_Click" />
         </StackPanel>
 
     </Grid>

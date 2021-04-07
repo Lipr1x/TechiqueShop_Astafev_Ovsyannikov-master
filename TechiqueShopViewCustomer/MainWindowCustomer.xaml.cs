@@ -21,43 +21,43 @@ namespace TechiqueShopViewCustomer
     public partial class MainWindowCustomer : Window
     {
         [Dependency]
-        public new IUnityContainer Container { get; set; }
+        public IUnityContainer Container { get; set; }
         public MainWindowCustomer()
         {
             InitializeComponent();
         }
         //Заказы
-        private void order_Button(object sender, RoutedEventArgs e)
+        private void Order_Button(object sender, RoutedEventArgs e)
         {
             OrderForm form = Container.Resolve<OrderForm>();
             form.Show();
         }
         //Поставки
-        private void supply_Button(object sender, RoutedEventArgs e)
+        private void Supply_Button(object sender, RoutedEventArgs e)
         {
             SupplyForm form = Container.Resolve<SupplyForm>();
             form.Show();
         }
         //Техника
-        private void technique_Button(object sender, RoutedEventArgs e)
+        private void Technique_Button(object sender, RoutedEventArgs e)
         {
             TechniqueForm form = Container.Resolve<TechniqueForm>();
             form.Show();
         }
         //Получение списка
-        private void getList_Button(object sender, RoutedEventArgs e)
+        private void GetList_Button(object sender, RoutedEventArgs e)
         {
             GetListForm form = Container.Resolve<GetListForm>();
             form.Show();
         }
         //Отчет
-        private void getReport_Button(object sender, RoutedEventArgs e)
+        private void GetReport_Button(object sender, RoutedEventArgs e)
         {
             GetReportForm form = Container.Resolve<GetReportForm>();
             form.Show();
         }
         //Выход на авторизацию
-        private void exit_Button(object sender, RoutedEventArgs e)
+        private void Exit_Button(object sender, RoutedEventArgs e)
         {
             //AuthorizationForm form = Container.Resolve<AuthorizationForm>();
             //form.Show();
