@@ -153,6 +153,7 @@ namespace TechiqueShopDatabaseImplement.Implements
         {
             assembly.AssemblyName = model.AssemblyName;
             assembly.Price = model.Price;
+            assembly.ProviderId = model.UserId;
             if (assembly.Id == 0)
             {
                 context.Assemblys.Add(assembly);

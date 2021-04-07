@@ -112,7 +112,7 @@ namespace TechiqueShopViewProvider
                 {
                     Id = id,
                     AssemblyName = nameAssembly.Text,
-                    Price = Convert.ToInt32(priceAssembly),
+                    Price = Convert.ToInt32(priceAssembly.Text),
                     AssemblyComponents = assemblyComponents,
                     UserId = 1
                 });
