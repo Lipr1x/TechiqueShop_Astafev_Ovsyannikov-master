@@ -13,6 +13,7 @@
                 </ListBox>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="ViewButton" Width="150" Margin="5" Click="ViewButton_Click">Отобразить</Button>
                 <Button x:Name="WordButton" Width="150" Margin="5" Click="WordButton_Click">Word</Button>
                 <Button x:Name="ExcelButton" Width="150"  Margin="5" Click="ExcelButton_Click">Excel</Button>
                 <Button x:Name="CancelButton_" Width="150" Margin="5" Click="CancelButton__Click">Отмена</Button>
