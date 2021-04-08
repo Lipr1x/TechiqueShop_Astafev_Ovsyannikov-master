@@ -107,6 +107,7 @@ namespace TechiqueShopDatabaseImplement.Implements
         {
             component.ComponentName = model.ComponentName;
             component.Price = model.Price;
+            component.ProviderId = model.UserId;
             return component;
         }
     }

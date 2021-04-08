@@ -45,8 +45,8 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button IsDefault="True" Margin="3" Content="Зарегестрироваться"></Button>
-                <Button IsCancel="True" Margin="3" Content="Отменить"></Button>
+                <Button Click="Accept_Click" Margin="3" Content="Зарегестрироваться"></Button>
+                <Button Click="CancelButton_Click" Margin="3" Content="Отменить"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -13,6 +13,21 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
         {
             _customerStorage = customerStorage;
         }
+        public void Login(CustomerBindingModel model)
+        {
+            var element = _customerStorage.GetElement(new CustomerBindingModel
+            {
+                Telephone = model.Telephone
+            });
+            if (element == null)
+            {
+                throw new Exception("Пользователь не найден");
+            }
+            if (element.Password != model.Password)
+            {
+                throw new Exception("Неверный пароль");
+            }
+        }
         public List<CustomerViewModel> Read(CustomerBindingModel model)
         {
             if (model == null)

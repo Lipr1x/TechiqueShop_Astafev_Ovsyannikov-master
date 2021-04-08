@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using TechiqueShopBusinessLogic.Interfaces;
-using TechniqueShopBusinessLogic.BusinessLogics;
 using Unity;
 using Unity.Lifetime;
 

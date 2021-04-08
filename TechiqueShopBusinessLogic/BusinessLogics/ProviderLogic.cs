@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.Interfaces;
 
-namespace TechniqueShopBusinessLogic.BusinessLogics
+namespace TechiqueShopBusinessLogic.BusinessLogics
 {
     public class ProviderLogic
     {
@@ -14,6 +14,21 @@ namespace TechniqueShopBusinessLogic.BusinessLogics
         public ProviderLogic(IProviderStorage providerStorage)
         {
             _providerStorage = providerStorage;
+        }
+        public void Login(ProviderBindingModel model)
+        {
+            var element = _providerStorage.GetElement(new ProviderBindingModel
+            {
+                Telephone = model.Telephone
+            });
+            if (element == null)
+            {
+                throw new Exception("Пользователь не найден");
+            }
+            if (element.Password != model.Password)
+            {
+                throw new Exception("Неверный пароль");
+            }
         }
         public List<ProviderViewModel> Read(ProviderBindingModel model)
         {

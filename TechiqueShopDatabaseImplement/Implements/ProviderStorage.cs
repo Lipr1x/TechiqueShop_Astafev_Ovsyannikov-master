@@ -62,7 +62,7 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 var provider = context.Providers
-                .FirstOrDefault(rec => rec.ProviderName == model.ProviderName ||
+                .FirstOrDefault(rec => rec.Telephone == model.Telephone ||
                rec.Id == model.Id);
                 return provider != null ?
                 new ProviderViewModel

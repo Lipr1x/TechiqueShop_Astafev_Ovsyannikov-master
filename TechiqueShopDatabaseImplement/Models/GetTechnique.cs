@@ -10,7 +10,9 @@ namespace TechiqueShopDatabaseImplement.Models
         public int Id { get; set; }
         public int CustomerId { get; set; }
         [Required]
-        public DateTime ArrivalTime { get; set; }
+        public string GetTechniqueName { get; set; }
+        [Required]
+        public DateTime? ArrivalTime { get; set; }
         [ForeignKey("GetTechniqueId")]
         public virtual List<SupplyGetTechnique> SupplyGetTechniques { get; set; }
         public virtual Customer Customer { get; set; }

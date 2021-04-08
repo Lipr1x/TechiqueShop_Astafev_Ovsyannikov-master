@@ -10,55 +10,57 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Unity;
 
-namespace TechiqueShopViewProvider
+namespace TechiqueShopViewCustomer
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для MainWindowCustomer.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowCustomer : Window
     {
         [Dependency]
         public IUnityContainer Container { get; set; }
-        public MainWindow()
+        public MainWindowCustomer()
         {
             InitializeComponent();
         }
-        private void Component_Button(object sender, RoutedEventArgs e)
+        //Заказы
+        private void Order_Button(object sender, RoutedEventArgs e)
         {
-            ComponentForm form = Container.Resolve<ComponentForm>();
-            form.ShowDialog();
-        }
-        private void Assembly_Button(object sender, RoutedEventArgs e)
-        {
-            AssemblyForm form = Container.Resolve<AssemblyForm>();
+            OrderForm form = Container.Resolve<OrderForm>();
             form.Show();
         }
-
-        private void Delivery_Button(object sender, RoutedEventArgs e)
+        //Поставки
+        private void Supply_Button(object sender, RoutedEventArgs e)
         {
-            DeliveryForm form = Container.Resolve<DeliveryForm>();
+            SupplyForm form = Container.Resolve<SupplyForm>();
             form.Show();
         }
-
+        //Техника
+        private void Technique_Button(object sender, RoutedEventArgs e)
+        {
+            TechniqueForm form = Container.Resolve<TechniqueForm>();
+            form.Show();
+        }
+        //Получение списка
         private void GetList_Button(object sender, RoutedEventArgs e)
         {
             GetListForm form = Container.Resolve<GetListForm>();
             form.Show();
         }
-
+        //Отчет
         private void GetReport_Button(object sender, RoutedEventArgs e)
         {
             GetReportForm form = Container.Resolve<GetReportForm>();
             form.Show();
         }
+        //Выход на авторизацию
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
-            AuthorizationForm form = Container.Resolve<AuthorizationForm>();
-            form.Show();
+            //AuthorizationForm form = Container.Resolve<AuthorizationForm>();
+            //form.Show();
             this.Close();
         }
     }

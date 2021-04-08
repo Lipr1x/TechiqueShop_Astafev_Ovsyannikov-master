@@ -26,8 +26,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                         Price = rec.Price,
                         AssemblyComponents = rec.AssemblyComponents
                             .ToDictionary(recAssemblyComponents => recAssemblyComponents.ComponentId,
-                            recAssemblyComponents => (recAssemblyComponents.Component?.ComponentName,
-                            recAssemblyComponents.Count))
+                            recAssemblyComponents => (recAssemblyComponents.Component?.ComponentName))
                     })
                     .ToList();
             }
@@ -53,8 +52,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                         Price = rec.Price,
                         AssemblyComponents = rec.AssemblyComponents
                             .ToDictionary(recAssemblyComponents => recAssemblyComponents.ComponentId,
-                            recAssemblyComponents => (recAssemblyComponents.Component?.ComponentName,
-                            recAssemblyComponents.Count))
+                            recAssemblyComponents => (recAssemblyComponents.Component?.ComponentName))
                     })
                     .ToList();
             }
@@ -82,8 +80,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                         Price = assembly.Price,
                         AssemblyComponents = assembly.AssemblyComponents
                             .ToDictionary(recAssemblyComponent => recAssemblyComponent.ComponentId,
-                            recAssemblyComponent => (recAssemblyComponent.Component?.ComponentName,
-                            recAssemblyComponent.Count))
+                            recAssemblyComponent => (recAssemblyComponent.Component?.ComponentName))
                     } :
                     null;
             }
@@ -156,6 +153,7 @@ namespace TechiqueShopDatabaseImplement.Implements
         {
             assembly.AssemblyName = model.AssemblyName;
             assembly.Price = model.Price;
+            assembly.ProviderId = model.UserId;
             if (assembly.Id == 0)
             {
                 context.Assemblys.Add(assembly);
@@ -175,7 +173,7 @@ namespace TechiqueShopDatabaseImplement.Implements
 
                 foreach (var updateComponent in assemblyComponent)
                 {
-                    updateComponent.Count = model.AssemblyComponents[updateComponent.ComponentId].Item2;
+                    //updateComponent.Count = model.AssemblyComponents[updateComponent.ComponentId].Item2;
                     model.AssemblyComponents.Remove(updateComponent.AssemblyId);
                 }
                 context.SaveChanges();
@@ -186,7 +184,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     AssemblyId = assembly.Id,
                     ComponentId = assemblyComponent.Key,
-                    Count = assemblyComponent.Value.Item2
+                    //Count = assemblyComponent.Value.Item2
                 });
                 context.SaveChanges();
             }
