@@ -10,7 +10,7 @@ using System.Text;
 
 namespace TechiqueShopBusinessLogic.FileModels
 {
-    public class SaveToExcel
+    public static class SaveToExcel
     {
         public static void CreateDocument(WordExcelInfo info)
         {

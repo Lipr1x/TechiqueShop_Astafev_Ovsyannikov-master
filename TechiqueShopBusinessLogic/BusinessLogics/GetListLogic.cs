@@ -60,15 +60,16 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
         /// Сохранение компонент в файл-Word
         /// </summary>
         /// <param name="model"></param>
-        public void SaveComponentsToWordFile(GetListBindingModel model)
+        public WordExcelInfo SaveComponentsToWordFile(GetListBindingModel model)
         {
-            SaveToWord.CreateDocument(new WordExcelInfo
+            var file = new WordExcelInfo
             {
-                FileName = model.FileName,
-                Title = "Список техники",
+                FileName = "filename",
+                Title = "something",
                 ComponentAssembly = GetComponentAssembly(model),
                 ChoosedComponents = model.Components
-            });
+            };
+            return file;
         }
         /// <summary>
         /// Сохранение компонент с указаеним продуктов в файл-Excel

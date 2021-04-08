@@ -5,27 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewProvider"
         mc:Ignorable="d"
-        Title="Получение списков" Height="450" Width="800">
+        Title="Получение списков" Height="750" Width="600">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="350"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Border Grid.Column="0" Margin="5,5,5,5" Padding="3,3,3,3"  BorderBrush="Black" BorderThickness="1">
-                <ListBox x:Name="CanSelectedMedicationsListBox" SelectionMode="Multiple">
+        <StackPanel>
+            <Border Margin="5" Height="300" BorderBrush="Black" BorderThickness="1">
+                <ListBox x:Name="CanSelectedComponentListBox" SelectionMode="Multiple">
                 </ListBox>
             </Border>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="WordButton" Grid.Column="0" Margin="10,0,10,10" Padding="3,3,3,3" Click="WordButton_Click">Word</Button>
-            <Button x:Name="ExcelButton" Grid.Column="1" Margin="10,0,10,10" Padding="3,3,3,3" Click="ExcelButton_Click">Excel</Button>
-            <Button x:Name="CancelButton_" Grid.Column="2" Margin="10,0,10,10" Padding="3,3,3,3" Click="CancelButton__Click">Отмена</Button>
-        </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="WordButton" Width="150" Margin="5" Click="WordButton_Click">Word</Button>
+                <Button x:Name="ExcelButton" Width="150"  Margin="5" Click="ExcelButton_Click">Excel</Button>
+                <Button x:Name="CancelButton_" Width="150" Margin="5" Click="CancelButton__Click">Отмена</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Border Margin="5"  Height="300" BorderBrush="Black" BorderThickness="3">
+                    <ListBox x:Name="assemblyGrid" Width="280" >
+                    </ListBox>
+                </Border>
+                <Border Margin="5"  Height="300" BorderBrush="Black" BorderThickness="3">
+                    <ListBox x:Name="selectComponentGrid" Width="280">
+                    </ListBox>
+                </Border>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

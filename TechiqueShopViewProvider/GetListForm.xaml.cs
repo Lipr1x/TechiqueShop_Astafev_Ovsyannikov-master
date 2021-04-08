@@ -39,10 +39,10 @@ namespace TechiqueShopViewProvider
             {
                 if (Components != null)
                 {
-                    CanSelectedMedicationsListBox.Items.Clear();
+                    CanSelectedComponentListBox.Items.Clear();
                     foreach (var comp in comp_logic.Read(null))
                     {
-                        CanSelectedMedicationsListBox.Items.Add(comp.ComponentName);
+                        CanSelectedComponentListBox.Items.Add(comp.ComponentName);
                     }
                 }
             }
@@ -55,19 +55,36 @@ namespace TechiqueShopViewProvider
 
         private void WordButton_Click(object sender, RoutedEventArgs e)
         {
-            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            //using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            //{
+            //    if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //    {
+            //        List<String> selected_components = new List<string>();
+            //        foreach (var item in CanSelectedComponentListBox.SelectedItems)
+            //        {
+            //            selected_components.Add(item.ToString());
+            //        }
+            //        list_logic.SaveComponentsToWordFile(new GetListBindingModel { FileName = dialog.FileName, Components = selected_components });
+            //        System.Windows.MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK,
+            //   MessageBoxImage.Information);
+            //    }
+            //}
+            assemblyGrid.Items.Clear();
+            selectComponentGrid.Items.Clear();
+            List<String> selected_components = new List<string>();
+            foreach (var item in CanSelectedComponentListBox.SelectedItems)
             {
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    List<String> selected_medications = new List<string>();
-                    foreach (var item in CanSelectedMedicationsListBox.SelectedItems)
-                    {
-                        selected_medications.Add(item.ToString());
-                    }
-                    list_logic.SaveComponentsToWordFile(new GetListBindingModel { FileName = dialog.FileName, Components = selected_medications });
-                    System.Windows.MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK,
-               MessageBoxImage.Information);
-                }
+                selected_components.Add(item.ToString());
+            }
+            var file = list_logic.SaveComponentsToWordFile(new GetListBindingModel { Components = selected_components });
+
+            foreach (var ca in file.ComponentAssembly)
+            {
+                assemblyGrid.Items.Add(ca.AssemblyName);
+            }
+            foreach (var cc in file.ChoosedComponents)
+            {
+                selectComponentGrid.Items.Add(cc);
             }
         }
 
@@ -77,12 +94,12 @@ namespace TechiqueShopViewProvider
             {
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    List<String> selected_medications = new List<string>();
-                    foreach (var item in CanSelectedMedicationsListBox.SelectedItems)
+                    List<String> selected_components = new List<string>();
+                    foreach (var item in CanSelectedComponentListBox.SelectedItems)
                     {
-                        selected_medications.Add(item.ToString());
+                        selected_components.Add(item.ToString());
                     }
-                    list_logic.SaveDishComponentToExcelFile(new GetListBindingModel { FileName = dialog.FileName, Components = selected_medications });
+                    list_logic.SaveDishComponentToExcelFile(new GetListBindingModel { FileName = dialog.FileName, Components = selected_components });
                     System.Windows.MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK,
                MessageBoxImage.Information);
                 }
