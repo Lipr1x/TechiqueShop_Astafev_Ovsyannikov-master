@@ -89,23 +89,6 @@ namespace TechiqueShopViewProvider
             //   MessageBoxImage.Information);
             //    }
             //}
-            assemblyGrid.Items.Clear();
-            selectComponentGrid.Items.Clear();
-            List<String> selected_components = new List<string>();
-            foreach (var item in CanSelectedComponentListBox.SelectedItems)
-            {
-                selected_components.Add(item.ToString());
-            }
-            var file = list_logic.SaveComponentsToWordFile(new GetListBindingModel { Components = selected_components });
-
-            foreach (var ca in file.ComponentAssembly)
-            {
-                assemblyGrid.Items.Add(ca.AssemblyName);
-            }
-            foreach (var cc in file.ChoosedComponents)
-            {
-                selectComponentGrid.Items.Add(cc);
-            }
         }
 
         private void ExcelButton_Click(object sender, RoutedEventArgs e)
