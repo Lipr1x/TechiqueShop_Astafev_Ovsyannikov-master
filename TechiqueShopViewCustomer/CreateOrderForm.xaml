@@ -5,20 +5,74 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="Формирование заказа" Height="132" Width="258">
+        Title="Формирование заказа" Height="150" Width="280">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
+            <Setter Property="ItemsControl.Background" Value="#222" />
+            <Setter Property="ItemsControl.Height" Value="30" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="ItemsControl.BorderThickness" Value="10" />
+            <Setter Property="ItemsControl.Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.Width" Value="77" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Control.Margin" Value="1" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Control.Background" Value="#e31235" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <StackPanel Margin="10">
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBlock Text="Название:" MinWidth="55px" Margin="0 0 5 0" TextAlignment="Right"/>
-                <TextBox Name="name" MaxLength="30" MinWidth="150"></TextBox>
+                <TextBox Name="name" MaxLength="30" Width="170" Height="24"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
                 <TextBlock Text="Цена:" MinWidth="55px" Margin="0 0 5 0" TextAlignment="Right"/>
-                <TextBox Name="price" MinWidth="150"></TextBox>
+                <TextBox Name="price" Width="170" Height="24"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Click="Save_button" Margin="3" Content="Сохранить"></Button>
-                <Button Click="Close_button" IsCancel="True" Margin="3" Content="Отменить"></Button>
+                <Button Click="Save_button" Margin="3" Width="95" Content="Сохранить"></Button>
+                <Button Click="Close_button" Margin="3" Width="90" Content="Отменить"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

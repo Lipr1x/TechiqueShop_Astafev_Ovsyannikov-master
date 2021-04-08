@@ -5,48 +5,98 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewProvider"
         mc:Ignorable="d"
-        Title="Регистрация" Height="235.469" Width="390.206">
+        Title="Регистрация" Height="250" Width="400">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
+            <Setter Property="ItemsControl.Background" Value="#222" />
+            <Setter Property="ItemsControl.Height" Value="35" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="ItemsControl.BorderThickness" Value="10" />
+            <Setter Property="ItemsControl.Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.Width" Value="74" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Control.Margin" Value="1" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Control.Background" Value="#e31235" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="131*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="10,10,4.206,10">
-            <TextBlock Text="Регистрация" HorizontalAlignment="Center"/>
+            <TextBlock Text="Регистрация" Width="95" HorizontalAlignment="Center"/>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Имя:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="Имя:" TextAlignment="Right"/>
                 <TextBox Name="name" MaxLength="30" MinWidth="300px"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Фамилия:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="Фамилия:" TextAlignment="Right"/>
                 <TextBox Name="secondName" MaxLength="50" MinWidth="300px"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Отчество:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="Отчество:" TextAlignment="Right"/>
                 <TextBox Name="pathronic" MaxLength="30" MinWidth="300px"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Телефон:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="Телефон:"  TextAlignment="Right"/>
                 <TextBox Name="tel" MaxLength="30" MinWidth="300px"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="E-mail:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="E-mail:" TextAlignment="Right"/>
                 <TextBox Name="email" MaxLength="30" MinWidth="300px"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Пароль:"  MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="Пароль:" TextAlignment="Right"/>
                 <PasswordBox Name="password" MaxLength="30" MinWidth="300px"></PasswordBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Роль:" MinWidth="55px" TextAlignment="Right"/>
+                <TextBlock Text="Роль:" TextAlignment="Right"/>
                 <ComboBox Name="userType" MinWidth="300px">
-                    <TextBlock>Заказчик</TextBlock>
-                    <TextBlock>Поставщик</TextBlock>
+                    <TextBlock Foreground="Black">Заказчик</TextBlock>
+                    <TextBlock Foreground="Black">Поставщик</TextBlock>
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Click="Accept_Click" Margin="3" Content="Зарегестрироваться"></Button>
-                <Button Click="CancelButton_Click" Margin="3" Content="Отменить"></Button>
+                <Button Click="Accept_Click" Margin="3" Width="165" Content="Зарегестрироваться"></Button>
+                <Button Click="CancelButton_Click" Margin="3" Width="85" Content="Отменить"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

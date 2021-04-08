@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="GetListForm" Height="450" Width="800">
+        Title="GetListForm" Height="400" Width="700">
+     <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
+            <Setter Property="ItemsControl.Background" Value="#222" />
+            <Setter Property="ItemsControl.Height" Value="35" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="ItemsControl.BorderThickness" Value="10" />
+            <Setter Property="ItemsControl.Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Control.Background" Value="#e31235" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <StackPanel>
+            <Border Margin="5" Height="300" BorderBrush="Black" BorderThickness="1">
+                <ListBox x:Name="CanSelectedComponentListBox" SelectionMode="Multiple">
+                </ListBox>
+            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Width="150" Margin="5" >Отобразить</Button>
+                <Button Width="150" Margin="5">Word</Button>
+                <Button Width="150"  Margin="5">Excel</Button>
+                <Button Width="150" Margin="5" >Отмена</Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

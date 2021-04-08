@@ -6,19 +6,57 @@
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
         Title="Заказы" Height="350" Width="450">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
+            <Setter Property="ItemsControl.Background" Value="#222" />
+            <Setter Property="ItemsControl.Height" Value="35" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="ItemsControl.BorderThickness" Value="10" />
+            <Setter Property="ItemsControl.Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Control.Background" Value="#e31235" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        <DataGrid x:Name="ordersGrid" Width="310" HorizontalAlignment="Left">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding OrderName}" Header="Название" Width="170"/>
-                <DataGridTextColumn Binding="{Binding Price}" Header="Цена" Width="130"/>
-            </DataGrid.Columns>
+        <DataGrid x:Name="ordersGrid" Width="310" IsReadOnly="True" AutoGenerateColumns="True"  HorizontalAlignment="Left">
         </DataGrid>
         <StackPanel HorizontalAlignment="Right" Width="90" Margin="20" Orientation="Vertical">
             <Button x:Name="CreateButton" Content="Создать" Margin="0 0 0 10" Click="CreateButton_Click" />
-            <Button x:Name="ChangeButton" Content="Изменить" Margin="0 0 0 10" Click="ChangeButton_Click" />
+            <Button x:Name="ChangeButton" Content="Изменить" Margin="0 0 0 10" Click="ChangeButton_Click" HorizontalAlignment="Left" Width="90" />
             <Button x:Name="UpdateButton" Content="Обновить" Margin="0 0 0 10" Click="UpdateButton_Click" />
             <Button x:Name="DeleteButton" Content="Удалить" Margin="0 0 0 10" Click="DeleteButton_Click" />
         </StackPanel>
-
     </Grid>
 </Window>

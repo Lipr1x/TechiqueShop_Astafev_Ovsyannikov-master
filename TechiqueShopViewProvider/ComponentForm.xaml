@@ -7,7 +7,41 @@
         mc:Ignorable="d"
         Title="Комплектующие" Height="350" Width="450">
     <Window.Resources>
-        <CollectionViewSource x:Key="componentViewSource"/>
+        <Style TargetType="Button">
+            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
+            <Setter Property="ItemsControl.Background" Value="#222" />
+            <Setter Property="ItemsControl.Height" Value="35" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="ItemsControl.BorderThickness" Value="10" />
+            <Setter Property="ItemsControl.Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        
+        <Style TargetType="Grid">
+            <Setter Property="Control.Background" Value="#e31235" />
+        </Style>
     </Window.Resources>
     <Grid>
         <DataGrid x:Name="componentsGrid" Width="310" IsReadOnly="True" AutoGenerateColumns="True"  HorizontalAlignment="Left">
