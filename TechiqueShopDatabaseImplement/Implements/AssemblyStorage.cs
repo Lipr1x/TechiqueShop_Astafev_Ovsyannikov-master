@@ -9,8 +9,10 @@ using TechiqueShopDatabaseImplement.Models;
 
 namespace TechiqueShopDatabaseImplement.Implements
 {
+    
     public class AssemblyStorage : IAssemblyStorage
     {
+        private readonly int _AssemblyNameMaxLength = 50;
         public List<AssemblyViewModel> GetFullList()
         {
             using (var context = new TechiqueShopDatabase())
@@ -151,6 +153,11 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Assembly CreateModel(AssemblyBindingModel model, Assembly assembly, TechiqueShopDatabase context)
         {
+            if (model.AssemblyName.Length > _AssemblyNameMaxLength)
+            {
+                throw new Exception($"Название сборки должно быть длиной до { _AssemblyNameMaxLength } ");
+            }
+
             assembly.AssemblyName = model.AssemblyName;
             assembly.Price = model.Price;
             assembly.ProviderId = model.UserId;

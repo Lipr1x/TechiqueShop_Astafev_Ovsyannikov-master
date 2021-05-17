@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.Interfaces;
 using TechiqueShopDatabaseImplement.Models;
@@ -10,6 +11,7 @@ namespace TechiqueShopDatabaseImplement.Implements
 {
     public class OrderStorage : IOrderStorage
     {
+        private readonly int _OrderMaxLength = 50;
         public List<OrderViewModel> GetFullList()
         {
             using (var context = new TechiqueShopDatabase())
@@ -104,6 +106,14 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Order CreateModel(OrderBindingModel model, Order order)
         {
+            if (model.OrderName.Length > _OrderMaxLength)
+            {
+                throw new Exception($"Название заказа должно быть длиной до { _OrderMaxLength } ");
+            }
+            if (!Regex.IsMatch(model.Price.ToString(), @"^\d{1,50}$"))
+            {
+                throw new Exception($"Нельзя назначить настолько высокую цену заказу, также должен состоять из цифр");
+            }
             order.OrderName = model.OrderName;
             order.Price = model.Price;
 

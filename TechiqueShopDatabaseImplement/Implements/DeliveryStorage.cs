@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.Interfaces;
 using TechiqueShopDatabaseImplement.Models;
@@ -153,6 +154,11 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Delivery CreateModel(DeliveryBindingModel model, Delivery delivery, TechiqueShopDatabase context)
         {
+            if (!Regex.IsMatch(model.DeliveryComponents.Count.ToString(), @"^\d{1,3}$"))
+            {
+                throw new Exception($"Комплектующих должно быть меньше 1000");
+            }
+
             delivery.DeliveryName = model.DeliveryName;
             delivery.Date = model.Date;
             if (delivery.Id == 0)

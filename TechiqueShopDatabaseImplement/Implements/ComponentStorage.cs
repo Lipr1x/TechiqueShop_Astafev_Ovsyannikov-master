@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.Interfaces;
 using TechiqueShopDatabaseImplement.Models;
@@ -10,6 +11,7 @@ namespace TechiqueShopDatabaseImplement.Implements
 {
     public class ComponentStorage : IComponentStorage
     {
+        private readonly int _ComponentNameMaxLength = 50;
         public List<ComponentViewModel> GetFullList()
         {
             using (var context = new TechiqueShopDatabase())
@@ -105,6 +107,14 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Component CreateModel(ComponentBindingModel model, Component component)
         {
+            if (model.ComponentName.Length > _ComponentNameMaxLength)
+            {
+                throw new Exception($"Название комплектующей должно быть длиной до { _ComponentNameMaxLength } ");
+            }
+            if (!Regex.IsMatch(model.Price.ToString(), @"^\d{1,10}$"))
+            {
+                throw new Exception($"Нельзя назначить настолько высокую цену за комплектующую, и должна состоять из цифр");
+            }
             component.ComponentName = model.ComponentName;
             component.Price = model.Price;
             component.ProviderId = model.UserId;

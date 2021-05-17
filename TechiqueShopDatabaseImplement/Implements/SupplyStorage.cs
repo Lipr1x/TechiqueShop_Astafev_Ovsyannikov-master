@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.Interfaces;
 using TechiqueShopDatabaseImplement.Models;
@@ -11,6 +12,7 @@ namespace TechiqueShopDatabaseImplement.Implements
 {
     public class SupplyStorage: ISupplyStorage
     {
+        private readonly int _SupplyNameMaxLength = 50;
         public List<SupplyViewModel> GetFullList()
         {
             using (var context = new TechiqueShopDatabase())
@@ -154,6 +156,10 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Supply CreateModel(SupplyBindingModel model, Supply supply, TechiqueShopDatabase context)
         {
+            if (model.SupplyName.Length > _SupplyNameMaxLength)
+            {
+                throw new Exception($"Название поставки должно быть длиной до { _SupplyNameMaxLength } ");
+            }
             supply.SupplyName = model.SupplyName;
             supply.Date = model.Date;
             if (supply.Id == 0)
