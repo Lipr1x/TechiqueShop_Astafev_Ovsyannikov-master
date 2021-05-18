@@ -41,7 +41,6 @@ namespace TechiqueShopViewProvider
                     dataGridView.ItemsSource = list;
                     dataGridView.ColumnWidth = DataGridLength.Auto;
                     var columns = dataGridView.Columns;
-                    //dataGridView.Columns[1].Visibility = Visibility.Collapsed;
                 }
             }
             catch (Exception ex)

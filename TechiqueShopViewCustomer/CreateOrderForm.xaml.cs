@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using TechiqueShopBusinessLogic.BindingModels;
+using TechiqueShopBusinessLogic.BusinessLogics;
 using TechiqueShopDatabaseImplement;
-using TechiqueShopDatabaseImplement.Models;
+using System.Windows;
 using Unity;
+using System;
 
 namespace TechiqueShopViewCustomer
 {
@@ -23,37 +12,62 @@ namespace TechiqueShopViewCustomer
     /// </summary>
     public partial class CreateOrderForm : Window
     {
-        TechiqueShopDatabase db;
-        public CreateOrderForm()
+        [Dependency]
+        public IUnityContainer Container { get; set; }
+        private readonly OrderLogic logic;
+        public int Id { set => id = value; }
+        private int? id;
+        public CreateOrderForm(OrderLogic logic)
         {
             InitializeComponent();
-            db = new TechiqueShopDatabase();
+            this.logic = logic;
         }
-
+        private void CreateOrderForm_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (id.HasValue)
+            {
+                try
+                {
+                    var view = logic.Read(new OrderBindingModel { Id = id })?[0];
+                    if (view != null)
+                    {
+                        name.Text = view.OrderName;
+                        price.Text = view.Price.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка");
+                }
+            }
+        }
         private void Save_button(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(name.Text))
+            {
+                MessageBox.Show("Заполните название", "Ошибка");
+                return;
+            }
+            if (string.IsNullOrEmpty(price.Text))
+            {
+                MessageBox.Show("Внесите стоимость", "Ошибка");
+                return;
+            }
             try
             {
-                if (string.IsNullOrEmpty(name.Text))
+                logic.CreateOrUpdate(new OrderBindingModel
                 {
-                    MessageBox.Show("Заполните поле Название", "Ошибка");
-                    return;
-                }
-                Order order = new Order
-                {
+                    Id = id,
                     OrderName = name.Text,
                     Price = Convert.ToInt32(price.Text)
-                };
-
-                // Добавить в DbSet
-                db.Orders.Add(order);
-
-                // Сохранить изменения в базе данных
-                db.SaveChanges();
+                });
+                this.DialogResult = true;
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение");
+                Close();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка", "Ошибка");
+                MessageBox.Show(ex.Message, "Ошибка");
             }
         }
         private void Close_button(object sender, RoutedEventArgs e)
