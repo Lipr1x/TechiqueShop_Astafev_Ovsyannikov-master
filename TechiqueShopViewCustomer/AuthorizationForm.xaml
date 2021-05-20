@@ -1,11 +1,11 @@
-﻿<Window x:Class="TechiqueShopViewCustomer.OrderForm"
+﻿<Window x:Class="TechiqueShopViewCustomer.AuthorizationForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="Заказы" Height="350" Width="450">
+        Title="Авторизация" Height="239.474" Width="190">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
@@ -36,27 +36,20 @@
             <Setter Property="Control.FontWeight" Value="DemiBold" />
             <Setter Property="Control.HorizontalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="DataGrid">
-            <Setter Property="Control.Margin" Value="5" />
-            <Setter Property="Control.BorderBrush" Value="#222" />
-            <Setter Property="Control.BorderThickness" Value="2" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Control.BorderBrush" Value="#222" />
-            <Setter Property="Control.BorderThickness" Value="2" />
-        </Style>
         <Style TargetType="Grid">
             <Setter Property="Control.Background" Value="#e31235" />
         </Style>
     </Window.Resources>
-    <Grid Loaded="OrderForm_Loaded">
-        <DataGrid x:Name="orderDataGrid" Width="310" IsReadOnly="True" AutoGenerateColumns="True"  HorizontalAlignment="Left">
-        </DataGrid>
-        <StackPanel HorizontalAlignment="Right" Width="90" Margin="20" Orientation="Vertical">
-            <Button x:Name="CreateButton" Content="Создать" Margin="0 0 0 10" Click="CreateButton_Click" />
-            <Button x:Name="ChangeButton" Content="Изменить" Margin="0 0 0 10" Click="ChangeButton_Click" HorizontalAlignment="Left" Width="90" />
-            <Button x:Name="UpdateButton" Content="Обновить" Margin="0 0 0 10" Click="UpdateButton_Click" />
-            <Button x:Name="DeleteButton" Content="Удалить" Margin="0 0 0 10" Click="DeleteButton_Click" />
+    <Grid>
+        <StackPanel>
+            <Label Content="Введите логин:"></Label>
+            <TextBox Name="loginBox" MaxLength="30" HorizontalAlignment="Center" Height="25" Width="150px">89962202975vavilon31043</TextBox>
+            <Label Content="Введите пароль:"></Label>
+            <PasswordBox Name="passwordBox" MaxLength="30" HorizontalAlignment="Center" Height="25" Width="150px"></PasswordBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
+                <Button Content="Войти" Click="Enter_Click" Width="60"></Button>
+                <Button Content="Регистрация" Click="Regis_Click" Width="110" Margin="5 0 0 0"></Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

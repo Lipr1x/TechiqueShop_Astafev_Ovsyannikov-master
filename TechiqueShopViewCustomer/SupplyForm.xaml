@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="Поставки" Height="320" Width="500">
+        Title="Поставки" Height="450" Width="617">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
             <Setter Property="ItemsControl.Background" Value="#222" />
-            <Setter Property="ItemsControl.Height" Value="30" />
+            <Setter Property="ItemsControl.Height" Value="35" />
             <Setter Property="Control.FontSize" Value="13" />
             <Setter Property="Control.FontWeight" Value="DemiBold" />
             <Setter Property="ItemsControl.BorderThickness" Value="10" />
@@ -50,33 +50,19 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <ListBox  x:Name="SelectedComponents" Height="190" Width="220" >
-                    </ListBox>
-                </Border>
-                <StackPanel VerticalAlignment="Center">
-                    <Button x:Name="RefundButton" Margin="0 15" FontFamily="Marlett" FontSize="20" Content="4" />
-                    <Button x:Name="AddButton" Margin="0 15" FontFamily="Marlett" FontSize="20" Content="3"  />
-                </StackPanel>
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <ListBox x:Name="CanSelectedComponents" DisplayMemberPath="ComponentName" Height="190" Width="220">
-                    </ListBox>
-                </Border>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Margin="0 0 5 0">Название:</Label>
-                <TextBox x:Name="nameAssembly" Width="200" Height="20" Margin="0 0 10 0"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Margin="0 0 5 0">Цена:</Label>
-                <TextBox x:Name="priceAssembly" Width="200px" Height="20" Margin="0 0 10 0"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 5 40 5">
-                <Button x:Name="SaveButton" Margin="5 0" Width="90" >Сохранить</Button>
-                <Button x:Name="CancelButton" Width="65" >Отмена</Button>
-            </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"></ColumnDefinition>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="dataGridView" AutoGenerateColumns="True" IsReadOnly="True">
+        </DataGrid>
+
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button x:Name="AddButton" Margin="5" Click="AddButton_Click">Добавить</Button>
+            <Button x:Name="ChangeButton" Margin="5" Click="ChangeButton_Click">Изменить</Button>
+            <Button x:Name="DeleteButton" Margin="5" Click="DeleteButton_Click">Удалить</Button>
+            <Button x:Name="UpdateButton" Margin="5" Click="UpdateButton_Click">Обновить</Button>
         </StackPanel>
     </Grid>
 </Window>
+

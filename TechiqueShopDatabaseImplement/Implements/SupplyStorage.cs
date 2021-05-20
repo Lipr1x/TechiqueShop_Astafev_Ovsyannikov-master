@@ -12,26 +12,24 @@ namespace TechiqueShopDatabaseImplement.Implements
 {
     public class SupplyStorage: ISupplyStorage
     {
-        private readonly int _SupplyNameMaxLength = 50;
         public List<SupplyViewModel> GetFullList()
         {
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Supplies
-                    .Include(rec => rec.SupplyOrders)
-                    .ThenInclude(rec => rec.Order)
-                    .ToList()
-                    .Select(rec => new SupplyViewModel
-                    {
-                        Id = rec.Id,
-                        SupplyName = rec.SupplyName,
-                        Date = rec.Date,
-                        SupplyOrders = rec.SupplyOrders
-                            .ToDictionary(recSupplyOrders => recSupplyOrders.OrderId,
-                            recSupplyOrders => (recSupplyOrders.Order?.OrderName,
-                            recSupplyOrders.Sum))
-                    })
-                    .ToList();
+                .Include(rec => rec.Customer)
+                .Include(rec => rec.SupplyOrders)
+                .ThenInclude(rec => rec.Order)
+                .ToList()
+                .Select(rec => new SupplyViewModel
+                {
+                    Id = rec.Id,
+                    TotalCost = rec.TotalCost,
+                    Date = rec.Date,
+                    SupplyOrders = rec.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
+                    CustomerId = rec.CustomerId
+                })
+                .ToList();
             }
         }
         public List<SupplyViewModel> GetFilteredList(SupplyBindingModel model)
@@ -40,25 +38,25 @@ namespace TechiqueShopDatabaseImplement.Implements
             {
                 return null;
             }
-
             using (var context = new TechiqueShopDatabase())
             {
+
                 return context.Supplies
-                    .Include(rec => rec.SupplyOrders)
-                    .ThenInclude(rec => rec.Order)
-                    .Where(rec => rec.SupplyName.Contains(model.SupplyName))
-                    .ToList()
-                    .Select(rec => new SupplyViewModel
-                    {
-                        Id = rec.Id,
-                        SupplyName = rec.SupplyName,
-                        Date = rec.Date,
-                        SupplyOrders = rec.SupplyOrders
-                            .ToDictionary(recSupplyOrders => recSupplyOrders.OrderId,
-                            recSupplyOrders => (recSupplyOrders.Order?.OrderName,
-                            recSupplyOrders.Sum))
-                    })
-                    .ToList();
+                .Include(rec => rec.Customer)
+                .Include(rec => rec.SupplyOrders)
+                .ThenInclude(rec => rec.Order)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.CustomerId == model.CustomerId) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.CustomerId == model.CustomerId && rec.Date.Date >= model.DateFrom.Value.Date && rec.Date.Date <= model.DateTo.Value.Date))
+                .ToList()
+                .Select(rec => new SupplyViewModel
+                {
+                    Id = rec.Id,
+                    TotalCost = rec.TotalCost,
+                    Date = rec.Date.Date,
+                    SupplyOrders = rec.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
+                    CustomerId = rec.CustomerId
+                })
+                .ToList();
             }
         }
         public SupplyViewModel GetElement(SupplyBindingModel model)
@@ -70,24 +68,19 @@ namespace TechiqueShopDatabaseImplement.Implements
 
             using (var context = new TechiqueShopDatabase())
             {
-                var supply = context.Supplies
-                    .Include(rec => rec.SupplyOrders)
-                    .ThenInclude(rec => rec.Order)
-                    .FirstOrDefault(rec => rec.SupplyName == model.SupplyName ||
-                    rec.Id == model.Id);
-
-                return supply != null ?
-                    new SupplyViewModel
-                    {
-                        Id = supply.Id,
-                        SupplyName = supply.SupplyName,
-                        Date = supply.Date,
-                        SupplyOrders = supply.SupplyOrders
-                            .ToDictionary(recSupplyOrder => recSupplyOrder.OrderId,
-                            recSupplyOrder => (recSupplyOrder.Order?.OrderName,
-                            recSupplyOrder.Sum))
-                    } :
-                    null;
+                Supply receipt = context.Supplies
+                .Include(rec => rec.Customer)
+                .Include(rec => rec.SupplyOrders)
+                .ThenInclude(rec => rec.Order)
+                .FirstOrDefault(rec => rec.Date == model.Date || rec.Id == model.Id);
+                return receipt != null ? new SupplyViewModel
+                {
+                    Id = receipt.Id,
+                    TotalCost = receipt.TotalCost,
+                    Date = receipt.Date,
+                    SupplyOrders = receipt.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
+                    CustomerId = receipt.CustomerId
+                } : null;
             }
         }
         public void Insert(SupplyBindingModel model)
@@ -99,8 +92,6 @@ namespace TechiqueShopDatabaseImplement.Implements
                     try
                     {
                         CreateModel(model, new Supply(), context);
-                        context.SaveChanges();
-
                         transaction.Commit();
                     }
                     catch
@@ -119,16 +110,14 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        var supply = context.Supplies.FirstOrDefault(rec => rec.Id == model.Id);
+                        Supply element = context.Supplies.FirstOrDefault(rec => rec.Id == model.Id);
 
-                        if (supply == null)
+                        if (element == null)
                         {
-                            throw new Exception("Подарок не найден");
+                            throw new Exception("Элемент не найден");
                         }
 
-                        CreateModel(model, supply, context);
-                        context.SaveChanges();
-
+                        CreateModel(model, element, context);
                         transaction.Commit();
                     }
                     catch
@@ -139,64 +128,67 @@ namespace TechiqueShopDatabaseImplement.Implements
                 }
             }
         }
+
         public void Delete(SupplyBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
             {
-                var Order = context.Supplies.FirstOrDefault(rec => rec.Id == model.Id);
-
-                if (Order == null)
+                Supply element = context.Supplies.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    throw new Exception("Заказ не найден");
+                    context.Supplies.Remove(element);
+                    context.SaveChanges();
                 }
-
-                context.Supplies.Remove(Order);
-                context.SaveChanges();
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
-        private Supply CreateModel(SupplyBindingModel model, Supply supply, TechiqueShopDatabase context)
+
+        private Supply CreateModel(SupplyBindingModel model, Supply sypply, TechiqueShopDatabase context)
         {
-            if (model.SupplyName.Length > _SupplyNameMaxLength)
+            sypply.TotalCost = model.TotalCost;
+            sypply.Date = model.Date;
+            sypply.CustomerId = (int)model.CustomerId;
+
+            if (sypply.Id == 0)
             {
-                throw new Exception($"Название поставки должно быть длиной до { _SupplyNameMaxLength } ");
-            }
-            supply.SupplyName = model.SupplyName;
-            supply.Date = model.Date;
-            if (supply.Id == 0)
-            {
-                context.Supplies.Add(supply);
+                context.Supplies.Add(sypply);
                 context.SaveChanges();
             }
 
             if (model.Id.HasValue)
             {
-                var supplyOrder = context.SupplyOrders
-                    .Where(rec => rec.SupplyId == model.Id.Value)
-                    .ToList();
-
-                context.SupplyOrders.RemoveRange(supplyOrder
-                    .Where(rec => !model.SupplyOrders.ContainsKey(rec.SupplyId))
-                    .ToList());
+                var supplyOrders = context.SupplyOrders.Where(rec => rec.SupplyId == model.Id.Value).ToList();
+                context.SupplyOrders.RemoveRange(supplyOrders.Where(rec => !model.SupplyOrders.ContainsKey(rec.SupplyId)).ToList());
                 context.SaveChanges();
 
-                foreach (var updateComponent in supplyOrder)
+                foreach (var updateOrder in supplyOrders)
                 {
-                    updateComponent.Sum = model.SupplyOrders[updateComponent.OrderId].Item2;
-                    model.SupplyOrders.Remove(updateComponent.SupplyId);
+                    updateOrder.Sum = model.SupplyOrders[updateOrder.OrderId].Item2;
+                    model.SupplyOrders.Remove(updateOrder.OrderId);
                 }
                 context.SaveChanges();
             }
-            foreach (var supplyOrder in model.SupplyOrders)
+            foreach (var rc in model.SupplyOrders)
             {
+                try { 
                 context.SupplyOrders.Add(new SupplyOrder
                 {
-                    SupplyId = supply.Id,
-                    OrderId = supplyOrder.Key,
-                    Sum = supplyOrder.Value.Item2
+                    SupplyId = sypply.Id,
+                    OrderId = rc.Key,
+                    Sum = rc.Value.Item2
+
                 });
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 context.SaveChanges();
+                
             }
-            return supply;
+            return sypply;
         }
     }
 }

@@ -10,7 +10,7 @@ using TechiqueShopDatabaseImplement;
 namespace TechiqueShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(TechiqueShopDatabase))]
-    [Migration("20210403164803_InitialCreate")]
+    [Migration("20210520095427_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,8 +163,13 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DeliveryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -211,11 +216,16 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ArrivalTime")
+                    b.Property<DateTime?>("ArrivalTime")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("GetTechniqueName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -298,11 +308,11 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SupplyName")
-                        .HasColumnType("int");
+                    b.Property<decimal>("TotalCost")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -340,6 +350,9 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
                     b.Property<int>("GetTechniqueId")
                         .HasColumnType("int");
 
@@ -365,8 +378,8 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Sum")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Sum")
+                        .HasColumnType("int");
 
                     b.Property<int>("SupplyId")
                         .HasColumnType("int");
@@ -385,7 +398,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Provider", "Provider")
                         .WithMany("Assemblies")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -424,7 +437,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Provider", "Provider")
                         .WithMany("Components")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -433,7 +446,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Provider", "Provider")
                         .WithMany("Deliveries")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -457,7 +470,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("GetTechniques")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -466,7 +479,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -475,7 +488,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("Supplies")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

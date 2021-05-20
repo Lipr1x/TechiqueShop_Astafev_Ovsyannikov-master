@@ -52,6 +52,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerId = table.Column<int>(nullable: false),
+                    GetTechniqueName = table.Column<string>(nullable: false),
                     ArrivalTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -62,7 +63,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,7 +84,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,8 +94,8 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerId = table.Column<int>(nullable: false),
-                    SupplyName = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: true)
+                    TotalCost = table.Column<decimal>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,7 +105,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +126,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.ProviderId,
                         principalTable: "Providers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,7 +147,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.ProviderId,
                         principalTable: "Providers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +157,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProviderId = table.Column<int>(nullable: false),
+                    DeliveryName = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Price = table.Column<decimal>(nullable: false)
                 },
@@ -167,7 +169,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.ProviderId,
                         principalTable: "Providers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,7 +179,8 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SupplyId = table.Column<int>(nullable: false),
-                    GetTechniqueId = table.Column<int>(nullable: false)
+                    GetTechniqueId = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -187,7 +190,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.GetTechniqueId,
                         principalTable: "GetTechniquies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SupplyGetTechniques_Supplies_SupplyId",
                         column: x => x.SupplyId,
@@ -204,7 +207,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SupplyId = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
-                    Sum = table.Column<decimal>(nullable: false)
+                    Sum = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,7 +217,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SupplyOrders_Supplies_SupplyId",
                         column: x => x.SupplyId,
@@ -246,7 +249,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,7 +276,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -293,7 +296,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SupplyComponents_Supplies_SupplyId",
                         column: x => x.SupplyId,
@@ -320,7 +323,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DeliveryComponents_Deliveries_DeliveryId",
                         column: x => x.DeliveryId,

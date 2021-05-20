@@ -1,6 +1,5 @@
 ﻿using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.BusinessLogics;
-using TechiqueShopDatabaseImplement;
 using System.Windows;
 using Unity;
 using System;
@@ -17,6 +16,8 @@ namespace TechiqueShopViewCustomer
         private readonly OrderLogic logic;
         public int Id { set => id = value; }
         private int? id;
+        public int CustomerId { set { customerId = value; } }
+        private int? customerId;
         public CreateOrderForm(OrderLogic logic)
         {
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace TechiqueShopViewCustomer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка");
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -45,12 +46,12 @@ namespace TechiqueShopViewCustomer
         {
             if (string.IsNullOrEmpty(name.Text))
             {
-                MessageBox.Show("Заполните название", "Ошибка");
+                MessageBox.Show("Заполните название", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (string.IsNullOrEmpty(price.Text))
             {
-                MessageBox.Show("Внесите стоимость", "Ошибка");
+                MessageBox.Show("Внесите стоимость", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             try
@@ -59,20 +60,22 @@ namespace TechiqueShopViewCustomer
                 {
                     Id = id,
                     OrderName = name.Text,
-                    Price = Convert.ToInt32(price.Text)
+                    Price = Convert.ToInt32(price.Text),
+                    CustomerId = customerId
                 });
-                this.DialogResult = true;
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение");
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogResult = true;
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка");
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void Close_button(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            DialogResult = false;
+            Close();
         }
     }
 }

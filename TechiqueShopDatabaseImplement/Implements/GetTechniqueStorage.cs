@@ -21,13 +21,13 @@ namespace TechiqueShopDatabaseImplement.Implements
                     .ToList()
                     .Select(rec => new GetTechniqueViewModel
                     {
-                        Id = rec.Id,
-                        GetTechniqueName = rec.GetTechniqueName,
-                        ArrivalTime = rec.ArrivalTime,
-                        SupplyGetTechniques = rec.SupplyGetTechniques
-                            .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
-                            recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
-                            recSupplyGetTechniques.Count))
+                        //Id = rec.Id,
+                        //GetTechniqueName = rec.GetTechniqueName,
+                        //ArrivalTime = rec.ArrivalTime,
+                        //SupplyGetTechniques = rec.SupplyGetTechniques
+                        //    .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
+                        //    recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.,
+                        //    recSupplyGetTechniques.Count))
                     })
                     .ToList();
             }
@@ -48,13 +48,13 @@ namespace TechiqueShopDatabaseImplement.Implements
                     .ToList()
                     .Select(rec => new GetTechniqueViewModel
                     {
-                        Id = rec.Id,
-                        GetTechniqueName = rec.GetTechniqueName,
-                        ArrivalTime = rec.ArrivalTime,
-                        SupplyGetTechniques = rec.SupplyGetTechniques
-                            .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
-                            recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
-                            recSupplyGetTechniques.Count))
+                        //Id = rec.Id,
+                        //GetTechniqueName = rec.GetTechniqueName,
+                        //ArrivalTime = rec.ArrivalTime,
+                        //SupplyGetTechniques = rec.SupplyGetTechniques
+                        //    .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
+                        //    recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
+                        //    recSupplyGetTechniques.Count))
                     })
                     .ToList();
             }
@@ -77,13 +77,13 @@ namespace TechiqueShopDatabaseImplement.Implements
                 return getTechnique != null ?
                     new GetTechniqueViewModel
                     {
-                        Id = getTechnique.Id,
-                        GetTechniqueName = getTechnique.GetTechniqueName,
-                        ArrivalTime = getTechnique.ArrivalTime,
-                        SupplyGetTechniques = getTechnique.SupplyGetTechniques
-                            .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
-                            recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
-                            recSupplyGetTechniques.Count))
+                        //Id = getTechnique.Id,
+                        //GetTechniqueName = getTechnique.GetTechniqueName,
+                        //ArrivalTime = getTechnique.ArrivalTime,
+                        //SupplyGetTechniques = getTechnique.SupplyGetTechniques
+                        //    .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
+                        //    recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
+                        //    recSupplyGetTechniques.Count))
                     } :
                     null;
             }

@@ -1,20 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TechiqueShopBusinessLogic.BindingModels;
+using TechiqueShopBusinessLogic.BusinessLogics;
+using TechiqueShopDatabaseImplement.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TechiqueShopDatabaseImplement;
-using TechiqueShopDatabaseImplement.Models;
 using Unity;
+using System;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace TechiqueShopViewCustomer
 {
@@ -25,52 +17,126 @@ namespace TechiqueShopViewCustomer
     {
         [Dependency]
         public IUnityContainer Container { get; set; }
-        private readonly TechiqueShopDatabase db;
-        public OrderForm()
+        public int Id { set { id = value; } }
+        private int? id;
+        private readonly OrderLogic logic;
+        public OrderForm(OrderLogic logic)
         {
             InitializeComponent();
-
-            db = new TechiqueShopDatabase();
-            db.Orders.Load(); // загружаем данные
-            ordersGrid.ItemsSource = db.Orders.Local.ToBindingList(); // устанавливаем привязку к кэшу
-
-            this.Closing += OrderForm_Closing;
+            this.logic = logic;
         }
-
-        private void OrderForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void OrderForm_Loaded(object sender, RoutedEventArgs e)
         {
-            db.Dispose();
+            LoadData();
+        }
+        private void LoadData()
+        {
+            try
+            {
+                var list = logic.Read(new OrderBindingModel { CustomerId = id });
+                if (list != null)
+                {
+                    orderDataGrid.ItemsSource = list;
+                    orderDataGrid.Columns[0].Visibility = Visibility.Hidden;
+                    orderDataGrid.Columns[1].Visibility = Visibility.Hidden;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = Container.Resolve<CreateOrderForm>();
+            window.CustomerId = (int)id;
+            if (window.ShowDialog().Value)
+            {
+                LoadData();
+            }
+        }
+        private void ChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderDataGrid.SelectedItems.Count == 1)
+            {
+                var window = Container.Resolve<CreateOrderForm>();
+                window.Id = ((OrderViewModel)orderDataGrid.SelectedItem).Id;
+                window.CustomerId = (int)id;
+                if (window.ShowDialog().Value)
+                {
+                    LoadData();
+                }
+            }
+        }
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderDataGrid.SelectedItems.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    int id = ((OrderViewModel)orderDataGrid.SelectedItem).Id;
+                    try
+                    {
+                        logic.Delete(new OrderBindingModel { Id = id });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    LoadData();
+                }
+            }
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            db.SaveChanges();
+            LoadData();
         }
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Данные для привязки DisplayName к названиям столбцов
+        /// </summary>
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            CreateOrderForm form = Container.Resolve<CreateOrderForm>();
-            form.Show();
-        }
-        private void ChangeButton_Click(object sender, RoutedEventArgs e)
-        {
-            CreateOrderForm form = Container.Resolve<CreateOrderForm>(); ;
-            form.Show();
+            string displayName = GetPropertyDisplayName(e.PropertyDescriptor);
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                e.Column.Header = displayName;
+            }
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// метод привязки DisplayName к названию столбца
+        /// </summary>
+        public static string GetPropertyDisplayName(object descriptor)
         {
-            if (ordersGrid.SelectedItems.Count > 0)
+            PropertyDescriptor pd = descriptor as PropertyDescriptor;
+            if (pd != null)
             {
-                for (int i = 0; i < ordersGrid.SelectedItems.Count; i++)
+                // Check for DisplayName attribute and set the column header accordingly
+                DisplayNameAttribute displayName = pd.Attributes[typeof(DisplayNameAttribute)] as DisplayNameAttribute;
+                if (displayName != null && displayName != DisplayNameAttribute.Default)
                 {
-                    Order phone = ordersGrid.SelectedItems[i] as Order;
-                    if (phone != null)
+                    return displayName.DisplayName;
+                }
+            }
+            else
+            {
+                PropertyInfo pi = descriptor as PropertyInfo;
+                if (pi != null)
+                {
+                    // Check for DisplayName attribute and set the column header accordingly
+                    Object[] attributes = pi.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+                    for (int i = 0; i < attributes.Length; ++i)
                     {
-                        db.Orders.Remove(phone);
+                        DisplayNameAttribute displayName = attributes[i] as DisplayNameAttribute;
+                        if (displayName != null && displayName != DisplayNameAttribute.Default)
+                        {
+                            return displayName.DisplayName;
+                        }
                     }
                 }
             }
-            db.SaveChanges();
+            return null;
         }
     }
 }

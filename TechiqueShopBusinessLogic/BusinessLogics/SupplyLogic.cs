@@ -29,7 +29,6 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
         {
             var element = _supplyStorage.GetElement(new SupplyBindingModel
             {
-                SupplyName = model.SupplyName,
                 Date = model.Date
             });
             if (element != null && element.Id != model.Id)

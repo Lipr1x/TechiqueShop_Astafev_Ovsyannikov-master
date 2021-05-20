@@ -11,8 +11,8 @@ namespace TechiqueShopDatabaseImplement.Models
         public int Id { get; set; }
         public int CustomerId { get; set; }
         [Required]
-        public string SupplyName { get; set; }
-        public DateTime? Date { get; set; }
+        public decimal TotalCost { get; internal set; }
+        public DateTime Date { get; set; }
         [ForeignKey("SupplyId")]
         public virtual List<SupplyComponent> SupplyComponents { get; set; }
         [ForeignKey("SupplyId")]

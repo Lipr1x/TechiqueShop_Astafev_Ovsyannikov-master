@@ -162,6 +162,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AuthorizationForm.xaml.cs">
+      <DependentUpon>AuthorizationForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CreateOrderForm.xaml.cs">
       <DependentUpon>CreateOrderForm.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,15 @@
     </Compile>
     <Compile Include="GetReportForm.xaml.cs">
       <DependentUpon>GetReportForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrationForm.xaml.cs">
+      <DependentUpon>RegistrationForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateSupplyForm.xaml.cs">
+      <DependentUpon>CreateSupplyForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SelectOrderForm.xaml.cs">
+      <DependentUpon>SelectOrderForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="SupplyForm.xaml.cs">
       <DependentUpon>SupplyForm.xaml</DependentUpon>
@@ -222,6 +234,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AuthorizationForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateOrderForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -239,6 +255,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OrderForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistrationForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateSupplyForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectOrderForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

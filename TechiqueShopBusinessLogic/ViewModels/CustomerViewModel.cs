@@ -9,7 +9,7 @@ namespace TechiqueShopBusinessLogic.BindingModels
 {
     public class CustomerViewModel
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [DisplayName("Имя")]
         public string CustomerName { get; set; }
         [DisplayName("Фамилия")]
