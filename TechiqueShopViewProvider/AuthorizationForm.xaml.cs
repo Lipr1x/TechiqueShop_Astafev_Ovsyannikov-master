@@ -26,19 +26,52 @@ namespace TechiqueShopViewProvider
     {
         [Dependency]
         public IUnityContainer Container { get; set; }
-        private readonly ProviderLogic logicP;
-        private readonly CustomerLogic logicC;
-        private readonly TechiqueShopDatabase db = new TechiqueShopDatabase();
-        public AuthorizationForm(ProviderLogic logicP, CustomerLogic logicC)
+        private readonly ProviderLogic logic;
+        public AuthorizationForm(ProviderLogic logic)
         {
             InitializeComponent();
-            this.logicP = logicP;
-            this.logicC = logicC;
+            this.logic = logic;
         }
-
-        //Вывод пользователей в консоль
+        private void Enter_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(loginBox.Text))
+            {
+                MessageBox.Show("Заполните логин", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(passwordBox.Password))
+            {
+                MessageBox.Show("Заполните пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var view = logic.Read(new ProviderBindingModel
+                {
+                    Telephone = loginBox.Text,
+                    Password = passwordBox.Password
+                });
+                if (view != null && view.Count > 0)
+                {
+                    //DialogResult = true;
+                    var window = Container.Resolve<MainWindow>();
+                    window.Id = (int)view[0].Id;
+                    window.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Неверный логин/пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        //Вывод пользователей в консоль (ПОТОМ ЭТО УДАЛИТЬ)
         private void OutputUsers()
         {
+            TechiqueShopDatabase db = new TechiqueShopDatabase();
             var usersP = db.Providers.ToList();
             Console.WriteLine("Поставщики:");
             foreach (var user in usersP)
@@ -55,63 +88,19 @@ namespace TechiqueShopViewProvider
                     $"{user.CustomerSurname}|{user.Telephone}|{user.Email}|{user.Password}");
             }
         }
-
         // Обработка кнопки перехода на форму регистрации
         private void Regis_Click(object sender, RoutedEventArgs e)
         {
             OutputUsers();
-
             var form = Container.Resolve<RegistrationForm>();
             Close();
             form.ShowDialog();
         }
 
-        // Обработка кнопки входа
-        private void Enter_Click(object sender, RoutedEventArgs e)
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(login.Text))
-            {
-                MessageBox.Show("Введите логин!", "Ошибка");
-                return;
-            }
-            if (string.IsNullOrEmpty(password.Password))
-            {
-                MessageBox.Show("Введите пароль!", "Ошибка");
-                return;
-            }
-            if (userType.SelectedIndex == -1)
-            {
-                MessageBox.Show("Выберите роль!", "Ошибка");
-                return;
-            }
-            try
-            {
-                if(userType.Text == "Поставщик") { 
-                    logicP.Login(new ProviderBindingModel
-                    {
-                        Telephone = login.Text,
-                        Password = password.Password,
-                    });
-                    var form = Container.Resolve<MainWindow>();
-                    Close();
-                    form.ShowDialog();
-                }
-                else if(userType.Text == "Заказчик") { 
-                    logicC.Login(new CustomerBindingModel
-                    {
-                        Telephone = login.Text,
-                        Password = password.Password,
-                    });
-                    var form = Container.Resolve<MainWindowCustomer>();
-                    Close();
-                    form.ShowDialog();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка");
-            }
-
+            DialogResult = false;
+            Close();
         }
     }
 }

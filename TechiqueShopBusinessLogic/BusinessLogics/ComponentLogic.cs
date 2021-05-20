@@ -31,7 +31,6 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             {
                 ComponentName = model.ComponentName,
                 Price = model.Price,
-                UserId = model.UserId
             });
             if (element != null && element.Id != model.Id)
             {

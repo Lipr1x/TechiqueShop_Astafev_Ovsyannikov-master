@@ -7,6 +7,7 @@ namespace TechiqueShopBusinessLogic.BindingModels
     public class ComponentBindingModel
     {
         public int? Id { get; set; }
+        public int? ProviderId { get; set; }
         public string ComponentName { get; set; }
         public int Price { get; set; }
         public int UserId { get; set; }

@@ -19,5 +19,6 @@ namespace TechiqueShopBusinessLogic.BindingModels
         [DisplayName("Дата поставки")]
         public DateTime Date { get; set; }
         public Dictionary<int, (string, int)> SupplyOrders { get; set; }
+        public Dictionary<int, string> SupplyComponents { get; set; }
     }
 }

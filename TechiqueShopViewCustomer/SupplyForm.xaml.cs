@@ -83,6 +83,18 @@ namespace TechiqueShopViewCustomer
                 }
             }
         }
+        private void LinkingButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGridView.SelectedCells.Count != 0)
+            {
+                var window = Container.Resolve<LinkingSupplyForm>();
+               // window.SupplyId = ((SupplyViewModel)dataGridView.SelectedCells[0].Item).Id;
+                if (window.ShowDialog().Value)
+                {
+                    LoadData();
+                }
+            }
+        }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {

@@ -16,6 +16,9 @@ namespace TechiqueShopViewProvider
         private readonly ComponentLogic logic;
         public int Id { set => id = value; }
         private int? id;
+        public int ProviderId { set { providerId = value; } }
+        private int? providerId;
+
         public CreateComponentForm(ComponentLogic logic)
         {
             InitializeComponent();
@@ -54,7 +57,7 @@ namespace TechiqueShopViewProvider
                     Id = id,
                     ComponentName = name.Text,
                     Price = Convert.ToInt32(price.Text),
-                    UserId = 1
+                    ProviderId = providerId
                 });
                 this.DialogResult = true;
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение");

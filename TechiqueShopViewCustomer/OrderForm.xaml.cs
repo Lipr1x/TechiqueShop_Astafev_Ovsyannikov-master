@@ -74,14 +74,15 @@ namespace TechiqueShopViewCustomer
             {
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    int id = ((OrderViewModel)orderDataGrid.SelectedItem).Id;
                     try
                     {
+                        int id = Convert.ToInt32(((ProviderViewModel)orderDataGrid.SelectedItem).Id);
                         logic.Delete(new OrderBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK,
+                       MessageBoxImage.Error);
                     }
                     LoadData();
                 }

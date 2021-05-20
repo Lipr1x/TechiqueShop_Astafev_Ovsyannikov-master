@@ -26,16 +26,14 @@ namespace TechiqueShopViewProvider
     {
         [Dependency]
         public IUnityContainer Container { get; set; }
-        private readonly ProviderLogic logicP;
-        private readonly CustomerLogic logicC;
+        private readonly ProviderLogic logic;
         public int Id { set => id = value; }
         private int? id;
 
-        public RegistrationForm(ProviderLogic logicP, CustomerLogic logicC)
+        public RegistrationForm(ProviderLogic logic)
         {
             InitializeComponent();
-            this.logicP = logicP;
-            this.logicC = logicC;
+            this.logic = logic;
         }
         private void Accept_Click(object sender, EventArgs e)
         {
@@ -69,48 +67,33 @@ namespace TechiqueShopViewProvider
                 MessageBox.Show("Заполните пароль!", "Ошибка");
                 return;
             }
-            if (userType.SelectedIndex == -1)
-            {
-                MessageBox.Show("Выберите роль!", "Ошибка");
-                return;
-            }
             try
             {
-                if (userType.Text.Equals("Поставщик"))
+
+                logic.CreateOrUpdate(new ProviderBindingModel
                 {
-                    logicP.CreateOrUpdate(new ProviderBindingModel
-                    {
-                        Id = id,
-                        ProviderName = name.Text,
-                        ProviderSurname = secondName.Text,
-                        Patronymic = pathronic.Text,
-                        Telephone = tel.Text,
-                        Email = email.Text,
-                        Password = password.Password,
-                        UserType = userType.Text
-                    });
-                    MessageBox.Show("Вы зарегитрировались как поставщик!", "Сообщение");
-                    var form = Container.Resolve<MainWindow>();
-                    Close();
-                    form.ShowDialog();
-                }
-                else
+                    Id = id,
+                    ProviderName = name.Text,
+                    ProviderSurname = secondName.Text,
+                    Patronymic = pathronic.Text,
+                    Telephone = tel.Text,
+                    Email = email.Text,
+                    Password = password.Password,
+                    UserType = "Производитель"
+                });
+                MessageBox.Show("Вы зарегитрировались, как производитель!", "Сообщение");
+                var view = logic.Read(new ProviderBindingModel
                 {
-                    logicC.CreateOrUpdate(new CustomerBindingModel
-                    {
-                        Id = id,
-                        CustomerName = name.Text,
-                        CustomerSurname = secondName.Text,
-                        Patronymic = pathronic.Text,
-                        Telephone = tel.Text,
-                        Email = email.Text,
-                        Password = password.Password,
-                        UserType = userType.Text
-                    });
-                    MessageBox.Show("Вы зарегитрировались как заказчик!", "Сообщение");
-                    var form = Container.Resolve<MainWindowCustomer>();
+                    Telephone = tel.Text,
+                    Password = password.Password
+                });
+                if (view != null && view.Count > 0)
+                {
+                    //DialogResult = true;
+                    var window = Container.Resolve<MainWindow>();
+                    window.Id = (int)view[0].Id;
                     Close();
-                    form.ShowDialog();
+                    window.ShowDialog();
                 }
             }
             catch (Exception ex)

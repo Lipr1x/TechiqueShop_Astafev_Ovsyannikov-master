@@ -31,8 +31,6 @@ namespace TechiqueShopViewCustomer
         public int CustomerId { set { customerId = value; } }
         private int? customerId;
 
-        private Dictionary<int, (string, int)> SupplyGetTechiques;
-
         private readonly GetTechniqueLogic logic;
 
         public TechniqueForm(GetTechniqueLogic logic)
@@ -112,20 +110,6 @@ namespace TechiqueShopViewCustomer
         private void buttonRef_Click(object sender, RoutedEventArgs e)
         {
             LoadData();
-        }
-
-        private void buttonLinking_Click(object sender, RoutedEventArgs e)
-        {
-            //if (dataGrid.SelectedCells.Count != 0)
-            //{
-            //    var window = Container.Resolve<LinkingTechniqueForm>();
-            //    window.CustomerId = (int)id;
-            //    window.TechniqueId = ((TechniqueViewModel)dataGrid.SelectedCells[0].Item).Id;
-            //    if (window.ShowDialog().Value)
-            //    {
-            //        LoadData();
-            //    }
-            //}
         }
 
         /// <summary>

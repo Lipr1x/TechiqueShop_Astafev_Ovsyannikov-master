@@ -9,9 +9,11 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
     public class SupplyLogic
     {
         private readonly ISupplyStorage _supplyStorage;
-        public SupplyLogic(ISupplyStorage supplyStorage)
+        private readonly IComponentStorage _componentStorage;
+        public SupplyLogic(ISupplyStorage supplyStorage, IComponentStorage componentStorage)
         {
             _supplyStorage = supplyStorage;
+            _componentStorage = componentStorage;
         }
         public List<SupplyViewModel> Read(SupplyBindingModel model)
         {
@@ -56,6 +58,33 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
                 throw new Exception("Поставка не найдена");
             }
             _supplyStorage.Delete(model);
+        }
+        public void Linking(SupplyBindingModel model)
+        {
+            var supply = _supplyStorage.GetElement(new SupplyBindingModel
+            {
+                Id = model.Id
+            });
+
+            var components = _componentStorage.GetElement(new ComponentBindingModel
+            {
+                Id = model.Id
+            });
+
+            if (components == null)
+            {
+                throw new Exception("Не найдены компоненты");
+            }
+
+            _supplyStorage.Update(new SupplyBindingModel
+            {
+                Id = supply.Id,
+                Date = supply.Date,
+                SupplyOrders = supply.SupplyOrders,
+                CustomerId = supply.CustomerId,
+                SupplyComponents = model.SupplyComponents,
+                TotalCost = supply.TotalCost
+            });
         }
     }
 }

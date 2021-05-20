@@ -19,6 +19,5 @@ namespace TechiqueShopDatabaseImplement.Models
         [ForeignKey("ComponentId")]
         public virtual List<DeliveryComponent> DeliveryComponents { get; set; }
         public virtual Provider Provider { get; set; }
-
     }
 }

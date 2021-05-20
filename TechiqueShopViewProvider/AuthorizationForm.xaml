@@ -43,14 +43,9 @@
     <Grid>
         <StackPanel>
             <Label Content="Введите логин:"></Label>
-            <TextBox Name="login" MaxLength="30" HorizontalAlignment="Center" Height="25" Width="150px"></TextBox>
+            <TextBox Name="loginBox" MaxLength="30" HorizontalAlignment="Center" Height="25" Width="150px"></TextBox>
             <Label Content="Введите пароль:"></Label>
-            <PasswordBox Name="password" MaxLength="30" HorizontalAlignment="Center" Height="25" Width="150px"></PasswordBox>
-            <Label Content="Роль:"></Label>
-            <ComboBox Name="userType" Width="150px">
-                <TextBlock FontSize="13" FontWeight="DemiBold">Заказчик</TextBlock>
-                <TextBlock  FontSize="13" FontWeight="DemiBold">Поставщик</TextBlock>
-            </ComboBox>
+            <PasswordBox Name="passwordBox" MaxLength="30" HorizontalAlignment="Center" Height="25" Width="150px"></PasswordBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
                 <Button Content="Войти" Click="Enter_Click" Width="60"></Button>
                 <Button Content="Регистрация" Click="Regis_Click" Width="110" Margin="5 0 0 0"></Button>

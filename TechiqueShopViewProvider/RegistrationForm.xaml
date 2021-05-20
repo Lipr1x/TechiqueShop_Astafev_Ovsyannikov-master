@@ -87,13 +87,6 @@
                 <TextBlock Text="Пароль:" TextAlignment="Right"/>
                 <PasswordBox Name="password" MaxLength="30" MinWidth="300px"></PasswordBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Роль:" TextAlignment="Right"/>
-                <ComboBox Name="userType" MinWidth="300px">
-                    <TextBlock Foreground="Black">Заказчик</TextBlock>
-                    <TextBlock Foreground="Black">Поставщик</TextBlock>
-                </ComboBox>
-            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Click="Accept_Click" Margin="3" Width="165" Content="Зарегестрироваться"></Button>
                 <Button Click="CancelButton_Click" Margin="3" Width="85" Content="Отменить"></Button>

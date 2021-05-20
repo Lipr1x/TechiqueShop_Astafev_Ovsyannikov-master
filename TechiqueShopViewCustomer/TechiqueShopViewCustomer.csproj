@@ -177,8 +177,8 @@
     <Compile Include="GetReportForm.xaml.cs">
       <DependentUpon>GetReportForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LinkingTechniqueForm.xaml.cs">
-      <DependentUpon>LinkingTechniqueForm.xaml</DependentUpon>
+    <Compile Include="LinkingSupplyForm.xaml.cs">
+      <DependentUpon>LinkingSupplyForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
@@ -260,7 +260,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LinkingTechniqueForm.xaml">
+    <Page Include="LinkingSupplyForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

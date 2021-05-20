@@ -37,6 +37,6 @@
         <Button x:Name="buttonUpd" Content="Изменить" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonUpd_Click"/>
         <Button x:Name="buttonDel" Content="Удалить" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonDel_Click"/>
         <Button x:Name="buttonRef" Content="Обновить" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonRef_Click"/>
-        <Button x:Name="buttonLinking" Content="Привязать к посещению" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="4" MinHeight="50" MinWidth="200" Click="buttonLinking_Click" />
+        
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,13 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Components
+                .Include(rec => rec.Provider)
                 .Select(rec => new ComponentViewModel
                 {
                     Id = rec.Id,
                     ComponentName = rec.ComponentName,
-                    Price = rec.Price
+                    Price = rec.Price,
+                    ProviderId = rec.ProviderId
                 })
                .ToList();
             }
@@ -35,12 +38,14 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Components
-                .Where(rec => rec.ComponentName.Contains(model.ComponentName))
+                .Include(rec => rec.Provider)
+                .Where(rec => rec.ProviderId == model.ProviderId || rec.ComponentName.Contains(model.ComponentName))
                .Select(rec => new ComponentViewModel
                {
                    Id = rec.Id,
                    ComponentName = rec.ComponentName,
-                   Price = rec.Price
+                   Price = rec.Price,
+                   ProviderId = rec.ProviderId
                })
                 .ToList();
             }
@@ -53,7 +58,9 @@ namespace TechiqueShopDatabaseImplement.Implements
             }
             using (var context = new TechiqueShopDatabase())
             {
+                var tmp = model.ProviderId;
                 var component = context.Components
+                .Include(rec => rec.Provider)
                 .FirstOrDefault(rec => rec.ComponentName == model.ComponentName ||
                rec.Id == model.Id);
                 return component != null ?
@@ -61,7 +68,8 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     Id = component.Id,
                     ComponentName = component.ComponentName,
-                    Price = component.Price
+                    Price = component.Price,
+                    ProviderId = component.ProviderId
                 } :
                null;
             }
@@ -92,8 +100,7 @@ namespace TechiqueShopDatabaseImplement.Implements
         {
             using (var context = new TechiqueShopDatabase())
             {
-                Component element = context.Components.FirstOrDefault(rec => rec.Id ==
-               model.Id);
+                Component element = context.Components.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element != null)
                 {
                     context.Components.Remove(element);
@@ -117,7 +124,7 @@ namespace TechiqueShopDatabaseImplement.Implements
             }
             component.ComponentName = model.ComponentName;
             component.Price = model.Price;
-            component.ProviderId = model.UserId;
+            component.ProviderId = (int)model.ProviderId;
             return component;
         }
     }

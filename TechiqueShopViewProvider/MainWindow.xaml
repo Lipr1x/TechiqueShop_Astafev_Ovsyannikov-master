@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewProvider"
         mc:Ignorable="d"
-         Title="MainWindow" Height="450" Width="800">
+         Title="MainWindow" Height="450" Width="800" Loaded="MainWindowCustomer_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
@@ -68,7 +68,9 @@
             <MenuItem Header="Закупки" Click="Delivery_Button" FontSize="20"></MenuItem>
             <MenuItem Header="Получение списка" Click="GetList_Button" FontSize="20"></MenuItem>
             <MenuItem Header="Отчет" Click="GetReport_Button" FontSize="20" ></MenuItem>
-            <MenuItem Header="Выйти" Click="Exit_Button" FontSize="20" ></MenuItem>
+        </Menu>
+        <Menu Height="40" VerticalAlignment="Bottom">
+            <Label Name="labelCustomer"></Label>
         </Menu>
     </Grid>
 </Window>

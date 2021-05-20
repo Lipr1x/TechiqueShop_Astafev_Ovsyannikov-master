@@ -45,7 +45,7 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Providers
-                .Where(rec => rec.ProviderName.Contains(model.ProviderName))
+                .Where(rec => rec.Telephone == model.Telephone && rec.Password == model.Password)
                .Select(rec => new ProviderViewModel
                {
                    Id = rec.Id,
@@ -127,22 +127,22 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Provider CreateModel(ProviderBindingModel model, Provider provider)
         {
-            if (model.ProviderName.Length > _ProviderNameMaxLength || model.ProviderSurname.Length > _ProviderSurnameMaxLength || model.Patronymic.Length > _PatronymicMaxLength)
-            {
-                throw new Exception($"Имя/Фамилия/отчество должно быть меньше {_ProviderNameMaxLength}/{_ProviderSurnameMaxLength}/{_PatronymicMaxLength} ");
-            }
-            if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength)
-            {
-                throw new Exception($"Пароль должен быть длиной от {_passwordMinLength} до { _passwordMaxLength } ");
-            }
-            if (model.Email.Length > _emailMaxLength || !Regex.IsMatch(model.Email, @"^[A-Za-z0-9]+(?:[._%+-])?[A-Za-z0-9._-]+[A-Za-z0-9]@[A-Za-z0-9]+(?:[.-])?[A-Za-z0-9._-]+\.[A-Za-z]{2,6}$"))
-            {
-                throw new Exception($"Мэйл должен быть длиной до { _emailMaxLength } ");
-            }
-            if (!Regex.IsMatch(model.Telephone, @"^\d{2,11}$"))
-            {
-                throw new Exception($"Телефон должен быть длиной до 11 цифр");
-            }
+            //if (model.ProviderName.Length > _ProviderNameMaxLength || model.ProviderSurname.Length > _ProviderSurnameMaxLength || model.Patronymic.Length > _PatronymicMaxLength)
+            //{
+            //    throw new Exception($"Имя/Фамилия/отчество должно быть меньше {_ProviderNameMaxLength}/{_ProviderSurnameMaxLength}/{_PatronymicMaxLength} ");
+            //}
+            //if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength)
+            //{
+            //    throw new Exception($"Пароль должен быть длиной от {_passwordMinLength} до { _passwordMaxLength } ");
+            //}
+            //if (model.Email.Length > _emailMaxLength || !Regex.IsMatch(model.Email, @"^[A-Za-z0-9]+(?:[._%+-])?[A-Za-z0-9._-]+[A-Za-z0-9]@[A-Za-z0-9]+(?:[.-])?[A-Za-z0-9._-]+\.[A-Za-z]{2,6}$"))
+            //{
+            //    throw new Exception($"Мэйл должен быть длиной до { _emailMaxLength } ");
+            //}
+            //if (!Regex.IsMatch(model.Telephone, @"^\d{2,11}$"))
+            //{
+            //    throw new Exception($"Телефон должен быть длиной до 11 цифр");
+            //}
 
             provider.ProviderName = model.ProviderName;
             provider.ProviderSurname = model.ProviderSurname;

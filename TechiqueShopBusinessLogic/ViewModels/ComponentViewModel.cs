@@ -14,5 +14,6 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public string ComponentName { get; set; }
         [DisplayName("Цена")]
         public decimal Price { get; set; }
+        public int ProviderId { get; set; }
     }
 }

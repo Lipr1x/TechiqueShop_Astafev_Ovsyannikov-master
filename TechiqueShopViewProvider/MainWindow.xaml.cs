@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TechiqueShopBusinessLogic.BindingModels;
+using TechiqueShopBusinessLogic.BusinessLogics;
 using Unity;
 
 namespace TechiqueShopViewProvider
@@ -23,43 +25,49 @@ namespace TechiqueShopViewProvider
     {
         [Dependency]
         public IUnityContainer Container { get; set; }
-        public MainWindow()
+        public int Id { set { id = value; } }
+        private int? id;
+        private ProviderLogic logic;
+        public MainWindow(ProviderLogic logic)
         {
             InitializeComponent();
+            this.logic = logic;
+        }
+        private void MainWindowCustomer_Loaded(object sender, RoutedEventArgs e)
+        {
+            var client = logic.Read(new ProviderBindingModel { Id = id })?[0];
+            labelCustomer.Content = "Клиент: " + client.ProviderName + " " + client.ProviderSurname;
         }
         private void Component_Button(object sender, RoutedEventArgs e)
         {
             ComponentForm form = Container.Resolve<ComponentForm>();
+            form.Id = (int)id;
             form.ShowDialog();
         }
         private void Assembly_Button(object sender, RoutedEventArgs e)
         {
             AssemblyForm form = Container.Resolve<AssemblyForm>();
-            form.Show();
+            //form.Id = (int)id;
+            form.ShowDialog();
         }
 
         private void Delivery_Button(object sender, RoutedEventArgs e)
         {
             DeliveryForm form = Container.Resolve<DeliveryForm>();
-            form.Show();
+            //form.Id = (int)id;
+            form.ShowDialog();
         }
 
         private void GetList_Button(object sender, RoutedEventArgs e)
         {
             GetListForm form = Container.Resolve<GetListForm>();
-            form.Show();
+            form.ShowDialog();
         }
 
         private void GetReport_Button(object sender, RoutedEventArgs e)
         {
             GetReportForm form = Container.Resolve<GetReportForm>();
             form.Show();
-        }
-        private void Exit_Button(object sender, RoutedEventArgs e)
-        {
-            AuthorizationForm form = Container.Resolve<AuthorizationForm>();
-            form.Show();
-            this.Close();
         }
     }
 }

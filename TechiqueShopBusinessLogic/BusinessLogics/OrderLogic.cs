@@ -34,7 +34,7 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new Exception("Телефон или Email уже был зарегестрирован!");
+                throw new Exception("Заказ уже был зарегестрирован!");
             }
             if (model.Id.HasValue)
             {
