@@ -37,6 +37,7 @@ namespace TechiqueShopViewProvider
             currentContainer.RegisterType<SupplyLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IProviderStorage, ProviderStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ProviderLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<GetListLogic>(new HierarchicalLifetimeManager());
             var mainWindow = currentContainer.Resolve<AuthorizationForm>();
             Application.Current.MainWindow = mainWindow;
             Application.Current.MainWindow.Show();

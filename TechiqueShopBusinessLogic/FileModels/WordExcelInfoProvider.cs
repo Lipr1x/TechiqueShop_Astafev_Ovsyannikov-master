@@ -5,7 +5,7 @@ using TechiqueShopBusinessLogic.ViewModels;
 
 namespace TechiqueShopBusinessLogic.FileModels
 {
-    public class WordExcelInfo
+    public class WordExcelInfoProvider
     {
         public string FileName { get; set; }
         public string Title { get; set; }

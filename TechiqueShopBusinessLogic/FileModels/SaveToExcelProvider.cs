@@ -10,9 +10,9 @@ using System.Text;
 
 namespace TechiqueShopBusinessLogic.FileModels
 {
-    public static class SaveToExcel
+    public static class SaveToExcelProvider
     {
-        public static void CreateDocument(WordExcelInfo info)
+        public static void CreateDocument(WordExcelInfoProvider info)
         {
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(info.FileName, SpreadsheetDocumentType.Workbook))
             {
@@ -106,6 +106,19 @@ namespace TechiqueShopBusinessLogic.FileModels
                                 Worksheet = worksheetPart.Worksheet,
                                 ShareStringPart = shareStringPart,
                                 ColumnName = "B",
+                                RowIndex = rowIndex,
+                                Text = assembly,
+                                StyleIndex = 1U
+                            });
+                            rowIndex++;
+                        }
+                        foreach (var assembly in compAssem.Components)
+                        {
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "C",
                                 RowIndex = rowIndex,
                                 Text = assembly,
                                 StyleIndex = 1U
