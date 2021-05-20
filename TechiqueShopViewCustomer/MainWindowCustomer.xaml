@@ -69,7 +69,7 @@
             <MenuItem Header="Получение списка" Click="GetList_Button" FontSize="20"></MenuItem>
             <MenuItem Header="Отчет" Click="GetReport_Button" FontSize="20" ></MenuItem>
         </Menu>
-        <Menu Height="20" VerticalAlignment="Bottom">
+        <Menu Height="40" VerticalAlignment="Bottom">
             <Label Name="labelCustomer"></Label>
         </Menu>
     </Grid>

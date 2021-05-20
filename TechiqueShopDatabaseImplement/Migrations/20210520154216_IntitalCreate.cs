@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TechiqueShopDatabaseImplement.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class IntitalCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,27 +43,6 @@ namespace TechiqueShopDatabaseImplement.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Providers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GetTechniquies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(nullable: false),
-                    GetTechniqueName = table.Column<string>(nullable: false),
-                    ArrivalTime = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GetTechniquies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GetTechniquies_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,30 +152,30 @@ namespace TechiqueShopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SupplyGetTechniques",
+                name: "GetTechniquies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(nullable: false),
                     SupplyId = table.Column<int>(nullable: false),
-                    GetTechniqueId = table.Column<int>(nullable: false),
-                    Count = table.Column<int>(nullable: false)
+                    ArrivalTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SupplyGetTechniques", x => x.Id);
+                    table.PrimaryKey("PK_GetTechniquies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SupplyGetTechniques_GetTechniquies_GetTechniqueId",
-                        column: x => x.GetTechniqueId,
-                        principalTable: "GetTechniquies",
+                        name: "FK_GetTechniquies_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SupplyGetTechniques_Supplies_SupplyId",
+                        name: "FK_GetTechniquies_Supplies_SupplyId",
                         column: x => x.SupplyId,
                         principalTable: "Supplies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -383,6 +362,11 @@ namespace TechiqueShopDatabaseImplement.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GetTechniquies_SupplyId",
+                table: "GetTechniquies",
+                column: "SupplyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
@@ -400,16 +384,6 @@ namespace TechiqueShopDatabaseImplement.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SupplyComponents_SupplyId",
                 table: "SupplyComponents",
-                column: "SupplyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SupplyGetTechniques_GetTechniqueId",
-                table: "SupplyGetTechniques",
-                column: "GetTechniqueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SupplyGetTechniques_SupplyId",
-                table: "SupplyGetTechniques",
                 column: "SupplyId");
 
             migrationBuilder.CreateIndex(
@@ -435,10 +409,10 @@ namespace TechiqueShopDatabaseImplement.Migrations
                 name: "DeliveryComponents");
 
             migrationBuilder.DropTable(
-                name: "SupplyComponents");
+                name: "GetTechniquies");
 
             migrationBuilder.DropTable(
-                name: "SupplyGetTechniques");
+                name: "SupplyComponents");
 
             migrationBuilder.DropTable(
                 name: "SupplyOrders");
@@ -451,9 +425,6 @@ namespace TechiqueShopDatabaseImplement.Migrations
 
             migrationBuilder.DropTable(
                 name: "Components");
-
-            migrationBuilder.DropTable(
-                name: "GetTechniquies");
 
             migrationBuilder.DropTable(
                 name: "Orders");

@@ -10,7 +10,7 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public int? CustomerId { get; set; }
         //public string GetTechniqueName { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public Dictionary<int, (string, int)> SupplyGetTechniques { get; set; }
+        public int SupplyId { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
     }

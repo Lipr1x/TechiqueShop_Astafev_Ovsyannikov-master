@@ -18,14 +18,14 @@ namespace TechiqueShopDatabaseImplement.Implements
                 return context.GetTechniquies
                 .Include(rec => rec.Customer)
                 //.Include(rec => rec.Visit)
-                .Include(rec => rec.SupplyGetTechniques)
-                .ThenInclude(rec => rec.Supply)
+                .Include(rec => rec.Supply)
+                //.ThenInclude(rec => rec.Supply)
                 .ToList()
                 .Select(rec => new GetTechniqueViewModel
                 {
                     Id = rec.Id,
                     ArrivalTime = rec.ArrivalTime,
-                    SupplyGetTechniques = rec.SupplyGetTechniques.ToDictionary(recDC => recDC.SupplyId, recDC => ("($recDC.Supply?.Id)", recDC.Count)),
+                    SupplyId = rec.SupplyId,
                     CustomerId = rec.CustomerId,
                     //VisitId = rec.VisitId
                 })
@@ -44,8 +44,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 return context.GetTechniquies
                 .Include(rec => rec.Customer)
                 //.Include(rec => rec.Visit)
-                .Include(rec => rec.SupplyGetTechniques)
-                .ThenInclude(rec => rec.Supply)
+                .Include(rec => rec.Supply)
                 .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.CustomerId == model.CustomerId) ||
                 (model.DateFrom.HasValue && model.DateTo.HasValue && rec.CustomerId == model.CustomerId && rec.ArrivalTime.Date >= model.DateFrom.Value.Date && rec.ArrivalTime.Date <= model.DateTo.Value.Date))
                 .ToList()
@@ -53,7 +52,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     Id = rec.Id,
                     ArrivalTime = rec.ArrivalTime,
-                    SupplyGetTechniques = rec.SupplyGetTechniques.ToDictionary(recDC => recDC.SupplyId, recDC => ("($recDC.Supply?.Id)", recDC.Count)),
+                    SupplyId = rec.SupplyId,
                     CustomerId = rec.CustomerId,
                     //VisitId = rec.VisitId
                 })
@@ -73,14 +72,13 @@ namespace TechiqueShopDatabaseImplement.Implements
                 GetTechnique distribution = context.GetTechniquies
                 .Include(rec => rec.Customer)
                 //.Include(rec => rec.Visit)
-                .Include(rec => rec.SupplyGetTechniques)
-                .ThenInclude(rec => rec.Supply)
+                .Include(rec => rec.Supply)
                 .FirstOrDefault(rec => rec.ArrivalTime == model.ArrivalTime || rec.Id == model.Id);
                 return distribution != null ? new GetTechniqueViewModel
                 {
                     Id = distribution.Id,
                     ArrivalTime = distribution.ArrivalTime,
-                    SupplyGetTechniques = distribution.SupplyGetTechniques.ToDictionary(recDC => recDC.SupplyId, recDC => ("($recDC.Supply?.Id)", recDC.Count)),
+                    SupplyId = distribution.SupplyId,
                     CustomerId = distribution.CustomerId,
                     //VisitId = distribution.VisitId
                 } : null;
@@ -155,35 +153,12 @@ namespace TechiqueShopDatabaseImplement.Implements
         {
             distribution.ArrivalTime = model.ArrivalTime;
             distribution.CustomerId = (int)model.CustomerId;
+            distribution.SupplyId = model.SupplyId;
             //distribution.VisitId = model.VisitId;
 
             if (distribution.Id == 0)
             {
                 context.GetTechniquies.Add(distribution);
-                context.SaveChanges();
-            }
-
-            if (model.Id.HasValue)
-            {
-                var distributionCosmetics = context.SupplyGetTechniques.Where(rec => rec.GetTechniqueId == model.Id.Value).ToList();
-                context.SupplyGetTechniques.RemoveRange(distributionCosmetics.Where(rec => !model.SupplyGetTechniques.ContainsKey(rec.SupplyId)).ToList());
-                context.SaveChanges();
-
-                foreach (var updateCosmetic in distributionCosmetics)
-                {
-                    updateCosmetic.Count = model.SupplyGetTechniques[updateCosmetic.SupplyId].Item2;
-                    model.SupplyGetTechniques.Remove(updateCosmetic.SupplyId);
-                }
-                context.SaveChanges();
-            }
-            foreach (var dc in model.SupplyGetTechniques)
-            {
-                context.SupplyGetTechniques.Add(new SupplyGetTechnique
-                {
-                    GetTechniqueId = distribution.Id,
-                    SupplyId = dc.Key,
-                    Count = dc.Value.Item2
-                });
                 context.SaveChanges();
             }
             return distribution;

@@ -17,8 +17,6 @@ namespace TechiqueShopDatabaseImplement.Models
         public virtual List<SupplyComponent> SupplyComponents { get; set; }
         [ForeignKey("SupplyId")]
         public virtual List<SupplyOrder> SupplyOrders { get; set; }
-        [ForeignKey("SupplyId")]
-        public virtual List<SupplyGetTechnique> SupplyGetTechniques { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using TechiqueShopDatabaseImplement;
 namespace TechiqueShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(TechiqueShopDatabase))]
-    [Migration("20210520095427_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210520154216_IntitalCreate")]
+    partial class IntitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -216,20 +216,20 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("ArrivalTime")
-                        .IsRequired()
+                    b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("GetTechniqueName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SupplyId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SupplyId");
 
                     b.ToTable("GetTechniquies");
                 });
@@ -343,31 +343,6 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.ToTable("SupplyComponents");
                 });
 
-            modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.SupplyGetTechnique", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GetTechniqueId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupplyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GetTechniqueId");
-
-                    b.HasIndex("SupplyId");
-
-                    b.ToTable("SupplyGetTechniques");
-                });
-
             modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.SupplyOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -472,6 +447,12 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TechiqueShopDatabaseImplement.Models.Supply", "Supply")
+                        .WithMany()
+                        .HasForeignKey("SupplyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.Order", b =>
@@ -502,21 +483,6 @@ namespace TechiqueShopDatabaseImplement.Migrations
 
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Supply", "Supply")
                         .WithMany("SupplyComponents")
-                        .HasForeignKey("SupplyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.SupplyGetTechnique", b =>
-                {
-                    b.HasOne("TechiqueShopDatabaseImplement.Models.GetTechnique", "GetTechnique")
-                        .WithMany("SupplyGetTechniques")
-                        .HasForeignKey("GetTechniqueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TechiqueShopDatabaseImplement.Models.Supply", "Supply")
-                        .WithMany("SupplyGetTechniques")
                         .HasForeignKey("SupplyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

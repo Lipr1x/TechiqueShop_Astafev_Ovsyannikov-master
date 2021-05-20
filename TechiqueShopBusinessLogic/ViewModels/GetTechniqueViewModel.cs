@@ -9,12 +9,13 @@ namespace TechiqueShopBusinessLogic.BindingModels
 {
     public class GetTechniqueViewModel
     {
-        [DisplayName("Номер")]
+        [DisplayName("ID прибытия")]
         public int Id { get; set; }
         public int CustomerId { get; set; }
 
         [DisplayName("Время получения")]
         public DateTime? ArrivalTime { get; set; }
-        public Dictionary<int, (string, int)> SupplyGetTechniques { get; set; }
+        [DisplayName("ID поставки")]
+        public int SupplyId { get; set; }
     }
 }

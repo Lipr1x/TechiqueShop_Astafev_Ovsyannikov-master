@@ -41,7 +41,6 @@ namespace TechiqueShopDatabaseImplement
         public virtual DbSet<AssemblyOrder> AssemblyOrders { set; get; }
         public virtual DbSet<DeliveryComponent> DeliveryComponents { set; get; }
         public virtual DbSet<SupplyComponent> SupplyComponents { set; get; }
-        public virtual DbSet<SupplyGetTechnique> SupplyGetTechniques { set; get; }
         public virtual DbSet<SupplyOrder> SupplyOrders { set; get; }
     }
 }

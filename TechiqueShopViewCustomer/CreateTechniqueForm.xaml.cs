@@ -38,17 +38,19 @@ namespace TechiqueShopViewCustomer
 
         private Dictionary<int, (string, int)> supplyGetTechiques;
 
-        private readonly SupplyLogic logic;
+        private readonly GetTechniqueLogic logicG;
+        private readonly SupplyLogic logicS;
 
-        public CreateTechniqueForm(SupplyLogic logic)
+        public CreateTechniqueForm(SupplyLogic logicS, GetTechniqueLogic logicG)
         {
             InitializeComponent();
-            this.logic = logic;
+            this.logicS = logicS;
+            this.logicG = logicG;
         }
 
         private void CreateTechniqueForm_Loaded(object sender, RoutedEventArgs e)
         {
-            var list = logic.Read(new SupplyBindingModel { CustomerId = customerId });
+            var list = logicS.Read(new SupplyBindingModel { CustomerId = customerId });
             
             if (list != null)
             {
@@ -67,26 +69,14 @@ namespace TechiqueShopViewCustomer
                 MessageBox.Show("Выберите поставку", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            var window = Container.Resolve<SelectOrderForm>();
-            window.CustomerId = (int)customerId;
-            if (window.ShowDialog().Value)
-            {
-                if (supplyGetTechiques.ContainsKey(window.Id))
-                {
-                    supplyGetTechiques[window.Id] = (window.OrderName, window.Count);
-                }
-                else
-                {
-                    supplyGetTechiques.Add(window.Id, (window.OrderName, window.Count));
-                }
-            }
+
             try
             {
-                logic.CreateOrUpdate(new GetTechniqueBindingModel
+                logicG.CreateOrUpdate(new GetTechniqueBindingModel
                 {
                     Id = id,
                     ArrivalTime = DateTime.Now,
-                    SupplyGetTechniques = supplyGetTechiques,
+                    SupplyId = Id,
                     CustomerId = customerId
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -97,7 +87,6 @@ namespace TechiqueShopViewCustomer
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            DialogResult = true;
             Close();
         }
 
