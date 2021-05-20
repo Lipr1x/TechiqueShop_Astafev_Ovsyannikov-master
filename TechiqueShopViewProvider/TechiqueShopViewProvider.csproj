@@ -191,6 +191,9 @@
     <Compile Include="RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectComponentForm.xaml.cs">
+      <DependentUpon>SelectComponentForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="AssemblyForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -243,6 +246,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SelectComponentForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -279,10 +286,6 @@
     <ProjectReference Include="..\TechiqueShopDatabaseImplement\TechiqueShopDatabaseImplement.csproj">
       <Project>{9444e0ca-86a3-4d83-87cf-3a8cf673d2ca}</Project>
       <Name>TechiqueShopDatabaseImplement</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TechiqueShopViewCustomer\TechiqueShopViewCustomer.csproj">
-      <Project>{2ff06198-a997-49c5-9c57-4e236e8441e9}</Project>
-      <Name>TechiqueShopViewCustomer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

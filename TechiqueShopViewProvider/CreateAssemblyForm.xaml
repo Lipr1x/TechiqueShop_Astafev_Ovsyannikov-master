@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewProvider"
         mc:Ignorable="d"
-        Title="Сборки" Height="325" Width="500">
+        Title="Сборки" Height="295.246" Width="596.127" Loaded="CreateAssemblyForm_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
@@ -37,6 +37,8 @@
             <Setter Property="Control.HorizontalAlignment" Value="Center" />
         </Style>
         <Style TargetType="DataGrid">
+            <Setter Property="Width" Value="470" />
+            <Setter Property="Height" Value="180" />
             <Setter Property="Control.Margin" Value="5" />
             <Setter Property="Control.BorderBrush" Value="#222" />
             <Setter Property="Control.BorderThickness" Value="2" />
@@ -50,32 +52,36 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <ListBox  x:Name="SelectedComponents" Height="190" Width="220" >
-                    </ListBox>
-                </Border>
-                <StackPanel VerticalAlignment="Center">
-                    <Button x:Name="RefundButton" Margin="0 15" FontFamily="Marlett" FontSize="20" Content="4" Click="RefundButton_Click"/>
-                    <Button x:Name="AddButton" Margin="0 15" FontFamily="Marlett" FontSize="20" Content="3" Click="AddButton_Click" />
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Loaded="CreateAssemblyForm_Loaded">
+                <StackPanel Orientation="Horizontal">
+                    <Border Margin="5" BorderThickness="1" BorderBrush="Black">
+                        <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Grid.ColumnSpan="4" Margin="5" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" ColumnWidth="*" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Visibility="Hidden"/>
+                                <DataGridTextColumn Header="Заказ"/>
+                                <DataGridTextColumn Header="Стоимость"/>
+                                <DataGridTextColumn Header="Количество"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </StackPanel>
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <ListBox x:Name="CanSelectedComponents" DisplayMemberPath="ComponentName" Height="190" Width="220">
-                    </ListBox>
-                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Label Margin="0 0 5 0">Название:</Label>
+                    <TextBox x:Name="nameAssembly" Width="200px" Height="20" Margin="0 0 10 0"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Label Margin="0 0 5 0">Цена:</Label>
+                    <TextBox x:Name="totalCostAssembly" Width="200px" Height="20" Margin="0 0 10 0"></TextBox>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Margin="0 0 5 0">Название:</Label>
-                <TextBox x:Name="nameAssembly" Width="200" Height="20" Margin="0 0 10 0"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Margin="0 0 5 0">Цена:</Label>
-                <TextBox x:Name="priceAssembly" Width="200px" Height="20" Margin="0 0 10 0"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 5 40 5">
-                <Button x:Name="SaveButton" Margin="5 0" Width="90" Click="SaveButton_Click">Сохранить</Button>
-                <Button x:Name="CancelButton" Width="65" Click="CancelButton_Click">Отмена</Button>
+            <StackPanel Margin="5 10 0 0">
+                <Button x:Name="buttonAdd" Content="Создать" Margin="0 0 0 5" Click="buttonAdd_Click"/>
+                <Button x:Name="buttonUpd" Content="Изменить" Margin="0 0 0 5" Click="buttonUpd_Click"/>
+                <Button x:Name="buttonDel" Content="Удалить" Margin="0 0 0 5" Click="buttonDel_Click"/>
+                <Button x:Name="buttonRef" Content="Обновить" Margin="0 0 0 5" Click="buttonRef_Click"/>
+                <Button x:Name="SaveButton" Content="Cохранить" Margin="0 0 0 5" Click="buttonSave_Click"></Button>
+                <Button x:Name="CancelButton" Content="Отменить" Margin="0 0 0 5" Click="buttonCancel_Click"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

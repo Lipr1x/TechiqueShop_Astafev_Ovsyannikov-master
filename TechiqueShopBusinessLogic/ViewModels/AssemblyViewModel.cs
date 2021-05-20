@@ -10,10 +10,11 @@ namespace TechiqueShopBusinessLogic.BindingModels
     public class AssemblyViewModel
     {
         public int? Id { get; set; }
+        public int? ProviderId { get; set; }
         [DisplayName("Сборка")]
         public string AssemblyName { get; set; }
         [DisplayName("Цена")]
         public decimal Price { get; set; }
-        public Dictionary<int, string> AssemblyComponents { get; set; }
+        public Dictionary<int, (string, int)> AssemblyComponents { get; set; }
     }
 }

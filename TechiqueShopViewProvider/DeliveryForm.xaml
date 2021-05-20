@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewProvider"
         mc:Ignorable="d"
-        Title="DeliveryForm" Height="400" Width="300">
+        Title="DeliveryForm" Height="302.5" Width="615" Loaded="DeliveryForm_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
@@ -55,17 +55,26 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel>
-                <Label>Список заказов:</Label>
-                <ComboBox x:Name="VisitComboBox" Height="120"></ComboBox>
-                <Label>Список сборок:</Label>
-                <ComboBox x:Name="ServiceComboBox" Height="120"></ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Width="100" Margin="5">Привязать</Button>
-                <Button Width="100" Margin="5" >Отмена</Button>
-            </StackPanel>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Grid.ColumnSpan="4" Margin="5" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" ColumnWidth="*" IsReadOnly="True"/>
+        <Button x:Name="buttonAdd" Content="Создать" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonAdd_Click"/>
+        <Button x:Name="buttonUpd" Content="Изменить" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonUpd_Click"/>
+        <Button x:Name="buttonDel" Content="Удалить" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonDel_Click"/>
+        <Button x:Name="buttonRef" Content="Обновить" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonRef_Click"/>
+        <Button x:Name="buttonLinking" Content="Привязать" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="4" Click="buttonLinking_Click" />
     </Grid>
 </Window>

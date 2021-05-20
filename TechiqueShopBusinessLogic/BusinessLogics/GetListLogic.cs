@@ -32,10 +32,10 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
                 bool have_components = true;
                 foreach (var component in model.Components)
                 {
-                    if (assebmly.AssemblyComponents.Values.FirstOrDefault(rec => rec == component) == null)
-                    {
-                        have_components = false;
-                    }
+                    //if (assebmly.AssemblyComponents.Values.FirstOrDefault(rec => rec == component) == null)
+                    //{
+                    //    have_components = false;
+                    //}
                 }
                 if (!have_components)
                     continue;

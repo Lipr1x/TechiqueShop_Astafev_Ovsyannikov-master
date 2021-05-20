@@ -16,49 +16,47 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Deliveries
-                    .Include(rec => rec.DeliveryComponents)
-                    .ThenInclude(rec => rec.Component)
-                    .ToList()
-                    .Select(rec => new DeliveryViewModel
-                    {
-                        Id = rec.Id,
-                        DeliveryName = rec.DeliveryName,
-                        Date = rec.Date,
-                        DeliveryComponents = rec.DeliveryComponents
-                            .ToDictionary(recDeliveryComponents => recDeliveryComponents.ComponentId,
-                            recDeliveryComponents => (recDeliveryComponents.Component?.ComponentName,
-                            recDeliveryComponents.Count))
-                    })
-                    .ToList();
+                .Include(rec => rec.Provider)
+                .Include(rec => rec.DeliveryComponents)
+                .ThenInclude(rec => rec.Component)
+                .ToList()
+                .Select(rec => new DeliveryViewModel
+                {
+                    Id = rec.Id,
+                    Date = rec.Date,
+                    DeliveryComponents = rec.DeliveryComponents.ToDictionary(recDC => recDC.ComponentId, recDC => (recDC.Component?.ComponentName, recDC.Count)),
+                    ProviderId = rec.ProviderId
+                })
+                .ToList();
             }
         }
+
         public List<DeliveryViewModel> GetFilteredList(DeliveryBindingModel model)
         {
             if (model == null)
             {
                 return null;
             }
-
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Deliveries
-                    .Include(rec => rec.DeliveryComponents)
-                    .ThenInclude(rec => rec.Component)
-                    .Where(rec => rec.DeliveryName.Contains(model.DeliveryName))
-                    .ToList()
-                    .Select(rec => new DeliveryViewModel
-                    {
-                        Id = rec.Id,
-                        DeliveryName = rec.DeliveryName,
-                        Date = rec.Date,
-                        DeliveryComponents = rec.DeliveryComponents
-                            .ToDictionary(recDeliveryComponents => recDeliveryComponents.ComponentId,
-                            recDeliveryComponents => (recDeliveryComponents.Component?.ComponentName,
-                            recDeliveryComponents.Count))
-                    })
-                    .ToList();
+                .Include(rec => rec.Provider)
+                .Include(rec => rec.DeliveryComponents)
+                .ThenInclude(rec => rec.Component)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.ProviderId == model.ProviderId) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.ProviderId == model.ProviderId && rec.Date >= model.DateFrom.Value.Date && rec.Date <= model.DateTo.Value.Date))
+                .ToList()
+                .Select(rec => new DeliveryViewModel
+                {
+                    Id = rec.Id,
+                    Date = rec.Date,
+                    DeliveryComponents = rec.DeliveryComponents.ToDictionary(recDC => recDC.ComponentId, recDC => (recDC.Component?.ComponentName, recDC.Count)),
+                    ProviderId = rec.ProviderId
+                })
+                .ToList();
             }
         }
+
         public DeliveryViewModel GetElement(DeliveryBindingModel model)
         {
             if (model == null)
@@ -68,26 +66,21 @@ namespace TechiqueShopDatabaseImplement.Implements
 
             using (var context = new TechiqueShopDatabase())
             {
-                var delivery = context.Deliveries
-                    .Include(rec => rec.DeliveryComponents)
-                    .ThenInclude(rec => rec.Component)
-                    .FirstOrDefault(rec => rec.DeliveryName == model.DeliveryName ||
-                    rec.Id == model.Id);
-
-                return delivery != null ?
-                    new DeliveryViewModel
-                    {
-                        Id = delivery.Id,
-                        DeliveryName = delivery.DeliveryName,
-                        Date = delivery.Date,
-                        DeliveryComponents = delivery.DeliveryComponents
-                            .ToDictionary(recDeliveryComponent => recDeliveryComponent.ComponentId,
-                            recDeliveryComponent => (recDeliveryComponent.Component?.ComponentName,
-                            recDeliveryComponent.Count))
-                    } :
-                    null;
+                Delivery del = context.Deliveries
+                .Include(rec => rec.Provider)
+                .Include(rec => rec.DeliveryComponents)
+                .ThenInclude(rec => rec.Component)
+                .FirstOrDefault(rec => rec.Date == model.Date || rec.Id == model.Id);
+                return del != null ? new DeliveryViewModel
+                {
+                    Id = del.Id,
+                    Date = del.Date,
+                    DeliveryComponents = del.DeliveryComponents.ToDictionary(recDC => recDC.ComponentId, recDC => (recDC.Component?.ComponentName, recDC.Count)),
+                    ProviderId = del.ProviderId
+                } : null;
             }
         }
+
         public void Insert(DeliveryBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
@@ -97,8 +90,6 @@ namespace TechiqueShopDatabaseImplement.Implements
                     try
                     {
                         CreateModel(model, new Delivery(), context);
-                        context.SaveChanges();
-
                         transaction.Commit();
                     }
                     catch
@@ -109,6 +100,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 }
             }
         }
+
         public void Update(DeliveryBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
@@ -117,16 +109,14 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        var delivery = context.Deliveries.FirstOrDefault(rec => rec.Id == model.Id);
+                        Delivery element = context.Deliveries.FirstOrDefault(rec => rec.Id == model.Id);
 
-                        if (delivery == null)
+                        if (element == null)
                         {
-                            throw new Exception("Закупка не найдена");
+                            throw new Exception("Элемент не найден");
                         }
 
-                        CreateModel(model, delivery, context);
-                        context.SaveChanges();
-
+                        CreateModel(model, element, context);
                         transaction.Commit();
                     }
                     catch
@@ -137,30 +127,30 @@ namespace TechiqueShopDatabaseImplement.Implements
                 }
             }
         }
+
         public void Delete(DeliveryBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
             {
-                var Component = context.Deliveries.FirstOrDefault(rec => rec.Id == model.Id);
-
-                if (Component == null)
+                Delivery element = context.Deliveries.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    throw new Exception("Материал не найден");
+                    context.Deliveries.Remove(element);
+                    context.SaveChanges();
                 }
-
-                context.Deliveries.Remove(Component);
-                context.SaveChanges();
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
+
         private Delivery CreateModel(DeliveryBindingModel model, Delivery delivery, TechiqueShopDatabase context)
         {
-            if (!Regex.IsMatch(model.DeliveryComponents.Count.ToString(), @"^\d{1,3}$"))
-            {
-                throw new Exception($"Комплектующих должно быть меньше 1000");
-            }
-
-            delivery.DeliveryName = model.DeliveryName;
             delivery.Date = model.Date;
+            delivery.ProviderId = (int)model.ProviderId;
+            delivery.DeliveryName = model.DeliveryName;
+
             if (delivery.Id == 0)
             {
                 context.Deliveries.Add(delivery);
@@ -169,29 +159,24 @@ namespace TechiqueShopDatabaseImplement.Implements
 
             if (model.Id.HasValue)
             {
-                var deliveryComponent = context.DeliveryComponents
-                    .Where(rec => rec.DeliveryId == model.Id.Value)
-                    .ToList();
-
-                context.DeliveryComponents.RemoveRange(deliveryComponent
-                    .Where(rec => !model.DeliveryComponents.ContainsKey(rec.DeliveryId))
-                    .ToList());
+                var distributionCosmetics = context.DeliveryComponents.Where(rec => rec.DeliveryId == model.Id.Value).ToList();
+                context.DeliveryComponents.RemoveRange(distributionCosmetics.Where(rec => !model.DeliveryComponents.ContainsKey(rec.ComponentId)).ToList());
                 context.SaveChanges();
 
-                foreach (var updateComponent in deliveryComponent)
+                foreach (var updateCosmetic in distributionCosmetics)
                 {
-                    updateComponent.Count = model.DeliveryComponents[updateComponent.ComponentId].Item2;
-                    model.DeliveryComponents.Remove(updateComponent.DeliveryId);
+                    updateCosmetic.Count = model.DeliveryComponents[updateCosmetic.ComponentId].Item2;
+                    model.DeliveryComponents.Remove(updateCosmetic.ComponentId);
                 }
                 context.SaveChanges();
             }
-            foreach (var deliveryComponent in model.DeliveryComponents)
+            foreach (var dc in model.DeliveryComponents)
             {
                 context.DeliveryComponents.Add(new DeliveryComponent
                 {
                     DeliveryId = delivery.Id,
-                    ComponentId = deliveryComponent.Key,
-                    Count = deliveryComponent.Value.Item2
+                    ComponentId = dc.Key,
+                    Count = dc.Value.Item2
                 });
                 context.SaveChanges();
             }
