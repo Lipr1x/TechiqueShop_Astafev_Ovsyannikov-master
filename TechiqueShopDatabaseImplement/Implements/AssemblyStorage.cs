@@ -18,19 +18,19 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 return context.Assemblys
-                    .Include(rec => rec.AssemblyComponents)
-                    .ThenInclude(rec => rec.Component)
-                    .ToList()
-                    .Select(rec => new AssemblyViewModel
-                    {
-                        Id = rec.Id,
-                        AssemblyName = rec.AssemblyName,
-                        Price = rec.Price,
-                        AssemblyComponents = rec.AssemblyComponents
-                            .ToDictionary(recAssemblyComponents => recAssemblyComponents.ComponentId,
-                            recAssemblyComponents => (recAssemblyComponents.Component?.ComponentName))
-                    })
-                    .ToList();
+                .Include(rec => rec.Provider)
+                .Include(rec => rec.AssemblyComponents)
+                .ThenInclude(rec => rec.Component)
+                .ToList()
+                .Select(rec => new AssemblyViewModel
+                {
+                    Id = rec.Id,
+                    Price = rec.Price,
+                    AssemblyName = rec.AssemblyName,
+                    AssemblyComponents = rec.AssemblyComponents.ToDictionary(recRC => recRC.ComponentId, recRC => (recRC.Component?.ComponentName, recRC.Count)),
+                    ProviderId = rec.ProviderId
+                })
+                .ToList();
             }
         }
         public List<AssemblyViewModel> GetFilteredList(AssemblyBindingModel model)
@@ -39,24 +39,25 @@ namespace TechiqueShopDatabaseImplement.Implements
             {
                 return null;
             }
-
             using (var context = new TechiqueShopDatabase())
             {
+
                 return context.Assemblys
-                    .Include(rec => rec.AssemblyComponents)
-                    .ThenInclude(rec => rec.Component)
-                    .Where(rec => rec.AssemblyName.Contains(model.AssemblyName))
-                    .ToList()
-                    .Select(rec => new AssemblyViewModel
-                    {
-                        Id = rec.Id,
-                        AssemblyName = rec.AssemblyName,
-                        Price = rec.Price,
-                        AssemblyComponents = rec.AssemblyComponents
-                            .ToDictionary(recAssemblyComponents => recAssemblyComponents.ComponentId,
-                            recAssemblyComponents => (recAssemblyComponents.Component?.ComponentName))
-                    })
-                    .ToList();
+                .Include(rec => rec.Provider)
+                .Include(rec => rec.AssemblyComponents)
+                .ThenInclude(rec => rec.Component)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.ProviderId == model.ProviderId) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.ProviderId == model.ProviderId))
+                .ToList()
+                .Select(rec => new AssemblyViewModel
+                {
+                    Id = rec.Id,
+                    Price = rec.Price,
+                    AssemblyName = rec.AssemblyName,
+                    AssemblyComponents = rec.AssemblyComponents.ToDictionary(recRC => recRC.ComponentId, recRC => (recRC.Component?.ComponentName, recRC.Count)),
+                    ProviderId = rec.ProviderId
+                })
+                .ToList();
             }
         }
         public AssemblyViewModel GetElement(AssemblyBindingModel model)
@@ -68,23 +69,19 @@ namespace TechiqueShopDatabaseImplement.Implements
 
             using (var context = new TechiqueShopDatabase())
             {
-                var assembly = context.Assemblys
-                    .Include(rec => rec.AssemblyComponents)
-                    .ThenInclude(rec => rec.Component)
-                    .FirstOrDefault(rec => rec.AssemblyName == model.AssemblyName ||
-                    rec.Id == model.Id);
-
-                return assembly != null ?
-                    new AssemblyViewModel
-                    {
-                        Id = assembly.Id,
-                        AssemblyName = assembly.AssemblyName,
-                        Price = assembly.Price,
-                        AssemblyComponents = assembly.AssemblyComponents
-                            .ToDictionary(recAssemblyComponent => recAssemblyComponent.ComponentId,
-                            recAssemblyComponent => (recAssemblyComponent.Component?.ComponentName))
-                    } :
-                    null;
+                Assembly assem = context.Assemblys
+                .Include(rec => rec.Provider)
+                .Include(rec => rec.AssemblyComponents)
+                .ThenInclude(rec => rec.Component)
+                .FirstOrDefault(rec => rec.AssemblyName == model.AssemblyName || rec.Id == model.Id);
+                return assem != null ? new AssemblyViewModel
+                {
+                    Id = assem.Id,
+                    Price = assem.Price,
+                    AssemblyName = assem.AssemblyName,
+                    AssemblyComponents = assem.AssemblyComponents.ToDictionary(recRC => recRC.ComponentId, recRC => (recRC.Component?.ComponentName, recRC.Count)),
+                    ProviderId = assem.ProviderId
+                } : null;
             }
         }
         public void Insert(AssemblyBindingModel model)
@@ -96,8 +93,6 @@ namespace TechiqueShopDatabaseImplement.Implements
                     try
                     {
                         CreateModel(model, new Assembly(), context);
-                        context.SaveChanges();
-
                         transaction.Commit();
                     }
                     catch
@@ -116,16 +111,14 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        var assembly = context.Assemblys.FirstOrDefault(rec => rec.Id == model.Id);
+                        Assembly element = context.Assemblys.FirstOrDefault(rec => rec.Id == model.Id);
 
-                        if (assembly == null)
+                        if (element == null)
                         {
-                            throw new Exception("Подарок не найден");
+                            throw new Exception("Элемент не найден");
                         }
 
-                        CreateModel(model, assembly, context);
-                        context.SaveChanges();
-
+                        CreateModel(model, element, context);
                         transaction.Commit();
                     }
                     catch
@@ -136,66 +129,72 @@ namespace TechiqueShopDatabaseImplement.Implements
                 }
             }
         }
+
         public void Delete(AssemblyBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
             {
-                var Component = context.Assemblys.FirstOrDefault(rec => rec.Id == model.Id);
-
-                if (Component == null)
+                Supply element = context.Supplies.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    throw new Exception("Материал не найден");
+                    context.Supplies.Remove(element);
+                    context.SaveChanges();
                 }
-
-                context.Assemblys.Remove(Component);
-                context.SaveChanges();
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
-        private Assembly CreateModel(AssemblyBindingModel model, Assembly assembly, TechiqueShopDatabase context)
+
+        private Assembly CreateModel(AssemblyBindingModel model, Assembly sypply, TechiqueShopDatabase context)
         {
             if (model.AssemblyName.Length > _AssemblyNameMaxLength)
             {
                 throw new Exception($"Название сборки должно быть длиной до { _AssemblyNameMaxLength } ");
             }
+            sypply.AssemblyName = model.AssemblyName;
+            sypply.Price = model.Price;
+            sypply.ProviderId = (int)model.ProviderId;
 
-            assembly.AssemblyName = model.AssemblyName;
-            assembly.Price = model.Price;
-            assembly.ProviderId = model.UserId;
-            if (assembly.Id == 0)
+            if (sypply.Id == 0)
             {
-                context.Assemblys.Add(assembly);
+                context.Assemblys.Add(sypply);
                 context.SaveChanges();
             }
 
             if (model.Id.HasValue)
             {
-                var assemblyComponent = context.AssemblyComponents
-                    .Where(rec => rec.AssemblyId == model.Id.Value)
-                    .ToList();
-
-                context.AssemblyComponents.RemoveRange(assemblyComponent
-                    .Where(rec => !model.AssemblyComponents.ContainsKey(rec.AssemblyId))
-                    .ToList());
+                var assemblyComponents = context.AssemblyComponents.Where(rec => rec.AssemblyId == model.Id.Value).ToList();
+                context.AssemblyComponents.RemoveRange(assemblyComponents.Where(rec => !model.AssemblyComponents.ContainsKey(rec.AssemblyId)).ToList());
                 context.SaveChanges();
 
-                foreach (var updateComponent in assemblyComponent)
+                foreach (var updateOrder in assemblyComponents)
                 {
-                    //updateComponent.Count = model.AssemblyComponents[updateComponent.ComponentId].Item2;
-                    model.AssemblyComponents.Remove(updateComponent.AssemblyId);
+                    updateOrder.Count = model.AssemblyComponents[updateOrder.ComponentId].Item2;
+                    model.AssemblyComponents.Remove(updateOrder.ComponentId);
                 }
                 context.SaveChanges();
             }
-            foreach (var assemblyComponent in model.AssemblyComponents)
+            foreach (var rc in model.AssemblyComponents)
             {
-                context.AssemblyComponents.Add(new AssemblyComponent
+                try
                 {
-                    AssemblyId = assembly.Id,
-                    ComponentId = assemblyComponent.Key,
-                    //Count = assemblyComponent.Value.Item2
-                });
+                    context.AssemblyComponents.Add(new AssemblyComponent
+                    {
+                        AssemblyId = sypply.Id,
+                        ComponentId = rc.Key,
+                        Count = rc.Value.Item2
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 context.SaveChanges();
+
             }
-            return assembly;
+            return sypply;
         }
     }
 }

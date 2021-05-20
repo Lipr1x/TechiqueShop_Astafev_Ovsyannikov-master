@@ -47,14 +47,14 @@ namespace TechiqueShopViewProvider
         private void Assembly_Button(object sender, RoutedEventArgs e)
         {
             AssemblyForm form = Container.Resolve<AssemblyForm>();
-            //form.Id = (int)id;
+            form.Id = (int)id;
             form.ShowDialog();
         }
 
         private void Delivery_Button(object sender, RoutedEventArgs e)
         {
             DeliveryForm form = Container.Resolve<DeliveryForm>();
-            //form.Id = (int)id;
+            form.Id = (int)id;
             form.ShowDialog();
         }
 

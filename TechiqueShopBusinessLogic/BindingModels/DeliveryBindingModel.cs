@@ -11,5 +11,8 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public string DeliveryName { get; set; }
         public DateTime? Date { get; set; }
         public Dictionary<int, (string, int)> DeliveryComponents { get; set; }
+        public int? ProviderId { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
     }
 }

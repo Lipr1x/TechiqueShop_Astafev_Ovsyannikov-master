@@ -95,7 +95,6 @@ namespace TechiqueShopViewCustomer
                 }
             }
         }
-
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridView.SelectedItems.Count == 1)

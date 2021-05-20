@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using TechiqueShopBusinessLogic.BindingModels;
 using TechiqueShopBusinessLogic.BusinessLogics;
 using TechiqueShopDatabaseImplement;
-using TechiqueShopViewCustomer;
 using Unity;
 
 namespace TechiqueShopViewProvider

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,18 +26,24 @@ namespace TechiqueShopViewProvider
     {
         [Dependency]
         public IUnityContainer Container { get; set; }
+        public int Id { set { id = value; } }
+        private int? id;
         private readonly AssemblyLogic _logic;
         public AssemblyForm(AssemblyLogic logic)
         {
             InitializeComponent();
             this._logic = logic;
+        }
+
+        private void AssemblyForm_Loaded(object sender, RoutedEventArgs e)
+        {
             LoadData();
         }
         private void LoadData()
         {
             try
             {
-                var list = _logic.Read(null);
+                var list = _logic.Read(new AssemblyBindingModel { ProviderId = id });
                 if (list != null)
                 {
                     dataGridView.ItemsSource = list;
@@ -45,14 +53,14 @@ namespace TechiqueShopViewProvider
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK,
-               MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var form = Container.Resolve<CreateAssemblyForm>();
+            form.ProviderId = (int)id;
             if (form.ShowDialog() == true)
             {
                 LoadData();
@@ -65,8 +73,9 @@ namespace TechiqueShopViewProvider
             {
                 var form = Container.Resolve<CreateAssemblyForm>();
                 form.Id = (int)((AssemblyViewModel)dataGridView.SelectedItem).Id;
+                form.ProviderId = (int)id;
                 form.nameAssembly.Text = ((AssemblyViewModel)dataGridView.SelectedItem).AssemblyName;
-                form.priceAssembly.Text = ((AssemblyViewModel)dataGridView.SelectedItem).Price.ToString();
+                form.totalCostAssembly.Text = ((AssemblyViewModel)dataGridView.SelectedItem).Price.ToString();
                 if (form.ShowDialog() == true)
                 {
                     LoadData();
@@ -98,6 +107,53 @@ namespace TechiqueShopViewProvider
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             LoadData();
+        }
+
+        /// <summary>
+        /// Данные для привязки DisplayName к названиям столбцов
+        /// </summary>
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string displayName = GetPropertyDisplayName(e.PropertyDescriptor);
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                e.Column.Header = displayName;
+            }
+        }
+
+        /// <summary>
+        /// метод привязки DisplayName к названию столбца
+        /// </summary>
+        public static string GetPropertyDisplayName(object descriptor)
+        {
+            PropertyDescriptor pd = descriptor as PropertyDescriptor;
+            if (pd != null)
+            {
+                // Check for DisplayName attribute and set the column header accordingly
+                DisplayNameAttribute displayName = pd.Attributes[typeof(DisplayNameAttribute)] as DisplayNameAttribute;
+                if (displayName != null && displayName != DisplayNameAttribute.Default)
+                {
+                    return displayName.DisplayName;
+                }
+            }
+            else
+            {
+                PropertyInfo pi = descriptor as PropertyInfo;
+                if (pi != null)
+                {
+                    // Check for DisplayName attribute and set the column header accordingly
+                    Object[] attributes = pi.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+                    for (int i = 0; i < attributes.Length; ++i)
+                    {
+                        DisplayNameAttribute displayName = attributes[i] as DisplayNameAttribute;
+                        if (displayName != null && displayName != DisplayNameAttribute.Default)
+                        {
+                            return displayName.DisplayName;
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }

@@ -30,8 +30,7 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             var element = _assemblyStorage.GetElement(new AssemblyBindingModel
             {
                 AssemblyName = model.AssemblyName,
-                Price = model.Price,
-                UserId = model.UserId
+                Price = model.Price
             });
             if (element != null && element.Id != model.Id)
             {
