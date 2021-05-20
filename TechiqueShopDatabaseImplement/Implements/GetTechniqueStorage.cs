@@ -16,49 +16,51 @@ namespace TechiqueShopDatabaseImplement.Implements
             using (var context = new TechiqueShopDatabase())
             {
                 return context.GetTechniquies
-                    .Include(rec => rec.SupplyGetTechniques)
-                    .ThenInclude(rec => rec.Supply)
-                    .ToList()
-                    .Select(rec => new GetTechniqueViewModel
-                    {
-                        //Id = rec.Id,
-                        //GetTechniqueName = rec.GetTechniqueName,
-                        //ArrivalTime = rec.ArrivalTime,
-                        //SupplyGetTechniques = rec.SupplyGetTechniques
-                        //    .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
-                        //    recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.,
-                        //    recSupplyGetTechniques.Count))
-                    })
-                    .ToList();
+                .Include(rec => rec.Customer)
+                //.Include(rec => rec.Visit)
+                .Include(rec => rec.SupplyGetTechniques)
+                .ThenInclude(rec => rec.Supply)
+                .ToList()
+                .Select(rec => new GetTechniqueViewModel
+                {
+                    Id = rec.Id,
+                    ArrivalTime = rec.ArrivalTime,
+                    SupplyGetTechniques = rec.SupplyGetTechniques.ToDictionary(recDC => recDC.SupplyId, recDC => ("($recDC.Supply?.Id)", recDC.Count)),
+                    CustomerId = rec.CustomerId,
+                    //VisitId = rec.VisitId
+                })
+                .ToList();
             }
         }
+
         public List<GetTechniqueViewModel> GetFilteredList(GetTechniqueBindingModel model)
         {
             if (model == null)
             {
                 return null;
             }
-
             using (var context = new TechiqueShopDatabase())
             {
                 return context.GetTechniquies
-                    .Include(rec => rec.SupplyGetTechniques)
-                    .ThenInclude(rec => rec.Supply)
-                    .Where(rec => rec.GetTechniqueName.Contains(model.GetTechniqueName))
-                    .ToList()
-                    .Select(rec => new GetTechniqueViewModel
-                    {
-                        //Id = rec.Id,
-                        //GetTechniqueName = rec.GetTechniqueName,
-                        //ArrivalTime = rec.ArrivalTime,
-                        //SupplyGetTechniques = rec.SupplyGetTechniques
-                        //    .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
-                        //    recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
-                        //    recSupplyGetTechniques.Count))
-                    })
-                    .ToList();
+                .Include(rec => rec.Customer)
+                //.Include(rec => rec.Visit)
+                .Include(rec => rec.SupplyGetTechniques)
+                .ThenInclude(rec => rec.Supply)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.CustomerId == model.CustomerId) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.CustomerId == model.CustomerId && rec.ArrivalTime.Date >= model.DateFrom.Value.Date && rec.ArrivalTime.Date <= model.DateTo.Value.Date))
+                .ToList()
+                .Select(rec => new GetTechniqueViewModel
+                {
+                    Id = rec.Id,
+                    ArrivalTime = rec.ArrivalTime,
+                    SupplyGetTechniques = rec.SupplyGetTechniques.ToDictionary(recDC => recDC.SupplyId, recDC => ("($recDC.Supply?.Id)", recDC.Count)),
+                    CustomerId = rec.CustomerId,
+                    //VisitId = rec.VisitId
+                })
+                .ToList();
             }
         }
+
         public GetTechniqueViewModel GetElement(GetTechniqueBindingModel model)
         {
             if (model == null)
@@ -68,26 +70,23 @@ namespace TechiqueShopDatabaseImplement.Implements
 
             using (var context = new TechiqueShopDatabase())
             {
-                var getTechnique = context.GetTechniquies
-                    .Include(rec => rec.SupplyGetTechniques)
-                    .ThenInclude(rec => rec.Supply)
-                    .FirstOrDefault(rec => rec.GetTechniqueName == model.GetTechniqueName ||
-                    rec.Id == model.Id);
-
-                return getTechnique != null ?
-                    new GetTechniqueViewModel
-                    {
-                        //Id = getTechnique.Id,
-                        //GetTechniqueName = getTechnique.GetTechniqueName,
-                        //ArrivalTime = getTechnique.ArrivalTime,
-                        //SupplyGetTechniques = getTechnique.SupplyGetTechniques
-                        //    .ToDictionary(recSupplyGetTechniques => recSupplyGetTechniques.SupplyId,
-                        //    recSupplyGetTechniques => (recSupplyGetTechniques.Supply?.SupplyName,
-                        //    recSupplyGetTechniques.Count))
-                    } :
-                    null;
+                GetTechnique distribution = context.GetTechniquies
+                .Include(rec => rec.Customer)
+                //.Include(rec => rec.Visit)
+                .Include(rec => rec.SupplyGetTechniques)
+                .ThenInclude(rec => rec.Supply)
+                .FirstOrDefault(rec => rec.ArrivalTime == model.ArrivalTime || rec.Id == model.Id);
+                return distribution != null ? new GetTechniqueViewModel
+                {
+                    Id = distribution.Id,
+                    ArrivalTime = distribution.ArrivalTime,
+                    SupplyGetTechniques = distribution.SupplyGetTechniques.ToDictionary(recDC => recDC.SupplyId, recDC => ("($recDC.Supply?.Id)", recDC.Count)),
+                    CustomerId = distribution.CustomerId,
+                    //VisitId = distribution.VisitId
+                } : null;
             }
         }
+
         public void Insert(GetTechniqueBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
@@ -97,8 +96,6 @@ namespace TechiqueShopDatabaseImplement.Implements
                     try
                     {
                         CreateModel(model, new GetTechnique(), context);
-                        context.SaveChanges();
-
                         transaction.Commit();
                     }
                     catch
@@ -109,6 +106,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 }
             }
         }
+
         public void Update(GetTechniqueBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
@@ -117,16 +115,14 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        var getTechnique = context.GetTechniquies.FirstOrDefault(rec => rec.Id == model.Id);
+                        GetTechnique element = context.GetTechniquies.FirstOrDefault(rec => rec.Id == model.Id);
 
-                        if (getTechnique == null)
+                        if (element == null)
                         {
-                            throw new Exception("Поставка не найдена");
+                            throw new Exception("Элемент не найден");
                         }
 
-                        CreateModel(model, getTechnique, context);
-                        context.SaveChanges();
-
+                        CreateModel(model, element, context);
                         transaction.Commit();
                     }
                     catch
@@ -137,60 +133,60 @@ namespace TechiqueShopDatabaseImplement.Implements
                 }
             }
         }
+
         public void Delete(GetTechniqueBindingModel model)
         {
             using (var context = new TechiqueShopDatabase())
             {
-                var Supply = context.GetTechniquies.FirstOrDefault(rec => rec.Id == model.Id);
-
-                if (Supply == null)
+                GetTechnique element = context.GetTechniquies.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    throw new Exception("Материал не найден");
+                    context.GetTechniquies.Remove(element);
+                    context.SaveChanges();
                 }
-
-                context.GetTechniquies.Remove(Supply);
-                context.SaveChanges();
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
-        private GetTechnique CreateModel(GetTechniqueBindingModel model, GetTechnique getTechnique, TechiqueShopDatabase context)
+
+        private GetTechnique CreateModel(GetTechniqueBindingModel model, GetTechnique distribution, TechiqueShopDatabase context)
         {
-            getTechnique.GetTechniqueName = model.GetTechniqueName;
-            getTechnique.ArrivalTime = model.ArrivalTime;
-            if (getTechnique.Id == 0)
+            distribution.ArrivalTime = model.ArrivalTime;
+            distribution.CustomerId = (int)model.CustomerId;
+            //distribution.VisitId = model.VisitId;
+
+            if (distribution.Id == 0)
             {
-                context.GetTechniquies.Add(getTechnique);
+                context.GetTechniquies.Add(distribution);
                 context.SaveChanges();
             }
 
             if (model.Id.HasValue)
             {
-                var supplyGetTechnique = context.SupplyGetTechniques
-                    .Where(rec => rec.Id == model.Id.Value)
-                    .ToList();
-
-                context.SupplyGetTechniques.RemoveRange(supplyGetTechnique
-                    .Where(rec => !model.SupplyGetTechniques.ContainsKey(rec.Id))
-                    .ToList());
+                var distributionCosmetics = context.SupplyGetTechniques.Where(rec => rec.GetTechniqueId == model.Id.Value).ToList();
+                context.SupplyGetTechniques.RemoveRange(distributionCosmetics.Where(rec => !model.SupplyGetTechniques.ContainsKey(rec.SupplyId)).ToList());
                 context.SaveChanges();
 
-                foreach (var updateSupply in supplyGetTechnique)
+                foreach (var updateCosmetic in distributionCosmetics)
                 {
-                    updateSupply.Count = model.SupplyGetTechniques[updateSupply.SupplyId].Item2;
-                    model.SupplyGetTechniques.Remove(updateSupply.Id);
+                    updateCosmetic.Count = model.SupplyGetTechniques[updateCosmetic.SupplyId].Item2;
+                    model.SupplyGetTechniques.Remove(updateCosmetic.SupplyId);
                 }
                 context.SaveChanges();
             }
-            foreach (var supplyGetTechnique in model.SupplyGetTechniques)
+            foreach (var dc in model.SupplyGetTechniques)
             {
                 context.SupplyGetTechniques.Add(new SupplyGetTechnique
                 {
-                    Id = getTechnique.Id,
-                    SupplyId = supplyGetTechnique.Key,
-                    Count = supplyGetTechnique.Value.Item2
+                    GetTechniqueId = distribution.Id,
+                    SupplyId = dc.Key,
+                    Count = dc.Value.Item2
                 });
                 context.SaveChanges();
             }
-            return getTechnique;
+            return distribution;
         }
     }
 }

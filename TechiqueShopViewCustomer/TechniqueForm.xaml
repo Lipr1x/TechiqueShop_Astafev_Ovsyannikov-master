@@ -5,67 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="TechniqueForm" Height="400" Width="350">
+        Title="TechniqueForm" Height="262" Width="632" Loaded="TechniqueForm_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
-            <Setter Property="ItemsControl.Background" Value="#222" />
-            <Setter Property="ItemsControl.Height" Value="35" />
-            <Setter Property="Control.FontSize" Value="13" />
-            <Setter Property="Control.FontWeight" Value="DemiBold" />
-            <Setter Property="ItemsControl.BorderThickness" Value="10" />
-            <Setter Property="ItemsControl.Foreground" Value="White" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="3"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="White"
-                                BorderThickness="2">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="Control.FontFamily" Value="Verdana" />
-            <Setter Property="Control.Foreground" Value="White" />
-            <Setter Property="Control.FontSize" Value="13" />
-            <Setter Property="Control.FontWeight" Value="DemiBold" />
-            <Setter Property="Control.HorizontalAlignment" Value="Center" />
-        </Style>
-        <Style TargetType="DataGrid">
-            <Setter Property="Control.Margin" Value="5" />
-            <Setter Property="Control.BorderBrush" Value="#222" />
-            <Setter Property="Control.BorderThickness" Value="2" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Control.BorderBrush" Value="#222" />
-            <Setter Property="Control.BorderThickness" Value="2" />
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Control.Margin" Value="5" />
-            <Setter Property="Control.BorderBrush" Value="#222" />
-            <Setter Property="Control.BorderThickness" Value="2" />
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Control.Background" Value="#e31235" />
+            <Setter Property="MaxWidth" Value="120"/>
+            <Setter Property="MaxHeight" Value="40"/>
+            <Setter Property="Background" Value="#A4B9CA"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="FontSize" Value="15px"/>
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel>
-                <Label>Список заказов:</Label>
-                <ComboBox x:Name="VisitComboBox" Height="120"></ComboBox>
-                <Label>Список сборок:</Label>
-                <ComboBox x:Name="ServiceComboBox" Height="120"></ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="Save" Width="100" Margin="5">Привязать</Button>
-                <Button x:Name="Cancel" Width="100" Margin="5">Отмена</Button>
-            </StackPanel>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Grid.ColumnSpan="4" Margin="5" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" ColumnWidth="*" IsReadOnly="True"/>
+        <Button x:Name="buttonAdd" Content="Создать" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonAdd_Click"/>
+        <Button x:Name="buttonUpd" Content="Изменить" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonUpd_Click"/>
+        <Button x:Name="buttonDel" Content="Удалить" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonDel_Click"/>
+        <Button x:Name="buttonRef" Content="Обновить" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Click="buttonRef_Click"/>
+        <Button x:Name="buttonLinking" Content="Привязать к посещению" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="4" MinHeight="50" MinWidth="200" Click="buttonLinking_Click" />
     </Grid>
 </Window>

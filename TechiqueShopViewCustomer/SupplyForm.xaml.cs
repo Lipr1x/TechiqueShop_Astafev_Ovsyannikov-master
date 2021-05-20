@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,7 +50,7 @@ namespace TechiqueShopViewCustomer
                 if (list != null)
                 {
                     dataGridView.ItemsSource = list;
-                    dataGridView.Columns[1].Visibility = Visibility.Hidden;
+                    //dataGridView.Columns[1].Visibility = Visibility.Hidden;
                     //dataGridView.Columns[4].Visibility = Visibility.Hidden;
                 }
             }
@@ -105,6 +107,52 @@ namespace TechiqueShopViewCustomer
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             LoadData();
+        }
+        /// <summary>
+        /// Данные для привязки DisplayName к названиям столбцов
+        /// </summary>
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string displayName = GetPropertyDisplayName(e.PropertyDescriptor);
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                e.Column.Header = displayName;
+            }
+        }
+
+        /// <summary>
+        /// метод привязки DisplayName к названию столбца
+        /// </summary>
+        public static string GetPropertyDisplayName(object descriptor)
+        {
+            PropertyDescriptor pd = descriptor as PropertyDescriptor;
+            if (pd != null)
+            {
+                // Check for DisplayName attribute and set the column header accordingly
+                DisplayNameAttribute displayName = pd.Attributes[typeof(DisplayNameAttribute)] as DisplayNameAttribute;
+                if (displayName != null && displayName != DisplayNameAttribute.Default)
+                {
+                    return displayName.DisplayName;
+                }
+            }
+            else
+            {
+                PropertyInfo pi = descriptor as PropertyInfo;
+                if (pi != null)
+                {
+                    // Check for DisplayName attribute and set the column header accordingly
+                    Object[] attributes = pi.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+                    for (int i = 0; i < attributes.Length; ++i)
+                    {
+                        DisplayNameAttribute displayName = attributes[i] as DisplayNameAttribute;
+                        if (displayName != null && displayName != DisplayNameAttribute.Default)
+                        {
+                            return displayName.DisplayName;
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }

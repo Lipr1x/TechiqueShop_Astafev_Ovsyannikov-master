@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="Поставки" Height="450" Width="617">
+        Title="Поставки" Height="450" Width="617" Loaded="SupplyLogic_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
