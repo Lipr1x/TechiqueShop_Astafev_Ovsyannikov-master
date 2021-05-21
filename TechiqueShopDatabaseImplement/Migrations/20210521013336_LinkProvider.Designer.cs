@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechiqueShopDatabaseImplement;
 
 namespace TechiqueShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(TechiqueShopDatabase))]
-    partial class TechiqueShopDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20210521013336_LinkProvider")]
+    partial class LinkProvider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

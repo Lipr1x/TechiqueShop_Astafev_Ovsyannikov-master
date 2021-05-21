@@ -194,6 +194,9 @@
     <Compile Include="SelectComponentForm.xaml.cs">
       <DependentUpon>SelectComponentForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowLinkingAssembly.xaml.cs">
+      <DependentUpon>WindowLinkingAssembly.xaml</DependentUpon>
+    </Compile>
     <Page Include="AssemblyForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -247,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SelectComponentForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowLinkingAssembly.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

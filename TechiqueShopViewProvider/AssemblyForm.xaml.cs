@@ -155,5 +155,15 @@ namespace TechiqueShopViewProvider
             }
             return null;
         }
+
+        private void LinkingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var form = Container.Resolve<WindowLinkingAssembly>();
+            form.ProviderId = (int)id;
+            if (form.ShowDialog() == true)
+            {
+                LoadData();
+            }
+        }
     }
 }
