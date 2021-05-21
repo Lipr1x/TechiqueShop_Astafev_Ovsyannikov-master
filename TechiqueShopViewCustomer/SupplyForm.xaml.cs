@@ -88,7 +88,8 @@ namespace TechiqueShopViewCustomer
             if (dataGridView.SelectedCells.Count != 0)
             {
                 var window = Container.Resolve<LinkingSupplyForm>();
-               // window.SupplyId = ((SupplyViewModel)dataGridView.SelectedCells[0].Item).Id;
+                window.CustomerId = (int)id;
+                window.SupplyId = ((SupplyViewModel)dataGridView.SelectedCells[0].Item).Id;
                 if (window.ShowDialog().Value)
                 {
                     LoadData();

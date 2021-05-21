@@ -73,7 +73,7 @@ namespace TechiqueShopViewCustomer
                         list.Add(new DataGridSupplyItemViewModel()
                         {
                             Id = rc.Key,
-                            CosmeticName = rc.Value.Item1,
+                            OrderName = rc.Value.Item1,
                             Price = logicO.Read(new OrderBindingModel { Id = rc.Key })?[0].Price,
                             Count = rc.Value.Item2
                         });
@@ -180,6 +180,7 @@ namespace TechiqueShopViewCustomer
                 {
                     Id = id,
                     Date = DateTime.Now,
+                    SupplyName = nameSupply.Text,
                     TotalCost = Convert.ToDecimal(totalCostSupply.Text),
                     SupplyOrders = supplyOrders,
                     CustomerId = customerId

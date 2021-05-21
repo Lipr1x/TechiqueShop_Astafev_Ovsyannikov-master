@@ -5,70 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="CreateTechniqueForm" Height="179.602" Width="337.04" Loaded="CreateTechniqueForm_Loaded">
+        Title="CreateTechniqueForm" Height="133.602" Width="337.04" Loaded="CreateTechniqueForm_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="MaxWidth" Value="120"/>
-            <Setter Property="MaxHeight" Value="40"/>
-            <Setter Property="Background" Value="#A4B9CA"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="White"/>
-            <Setter Property="FontSize" Value="15px"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="#003466"/>
-            <Setter Property="BorderBrush" Value="#003466"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="FontSize" Value="15px"/>
+            <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
+            <Setter Property="ItemsControl.Background" Value="#222" />
+            <Setter Property="ItemsControl.Height" Value="30" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="ItemsControl.BorderThickness" Value="10" />
+            <Setter Property="ItemsControl.Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="#003466"/>
-            <Setter Property="FontSize" Value="15px"/>
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.FontSize" Value="13" />
+            <Setter Property="Control.FontWeight" Value="DemiBold" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Width" Value="470" />
+            <Setter Property="Height" Value="180" />
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Control.BorderBrush" Value="#222" />
+            <Setter Property="Control.BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Control.Background" Value="#e31235" />
         </Style>
     </Window.Resources>
-    <Grid Margin="0,0,2,3">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Дата выдачи:" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Поставка:" />
-        <TextBox x:Name="TextBoxDate" Grid.Row="0" Grid.Column="1" IsEnabled="False" RenderTransformOrigin="0.829,0.591" Grid.ColumnSpan="3" />
-        <ComboBox x:Name="ComboBoxSupplyName" Grid.Row="1" Grid.Column="1" MaxWidth="120" MaxHeight="25" Foreground="#003466" FontSize="15px" >
-            <ComboBox.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#A4B9CA" />
-            </ComboBox.Resources>
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Id}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <GroupBox  Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-            </Grid>
-        </GroupBox>
-        <Button x:Name="buttonSave" Content="Сохранить" Grid.Row="2" Grid.Column="0" Click="buttonSave_Click"/>
-        <Button x:Name="buttonCancel" Content="Отмена" Grid.Row="2" Grid.Column="1" Click="buttonCancel_Click"/>
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
+                <Label Content="Дата выдачи:" />
+                <TextBox x:Name="TextBoxDate" Width="220"  IsEnabled="False" RenderTransformOrigin="0.829,0.591" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="Поставка:" />
+                <ComboBox x:Name="ComboBoxSupplyName" Width="220" Foreground="#003466" FontSize="15px" >
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#A4B9CA" />
+                    </ComboBox.Resources>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="buttonSave" Content="Сохранить" Margin="10" Click="buttonSave_Click"/>
+                <Button x:Name="buttonCancel" Content="Отмена" Margin="10" Click="buttonCancel_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

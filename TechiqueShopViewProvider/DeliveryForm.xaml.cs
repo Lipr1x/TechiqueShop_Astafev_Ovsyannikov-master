@@ -52,7 +52,7 @@ namespace TechiqueShopViewProvider
                 if (list != null)
                 {
                     dataGrid.ItemsSource = list;
-                    dataGrid.Columns[1].Visibility = Visibility.Hidden;
+                   
                     dataGrid.Columns[2].Visibility = Visibility.Hidden;
                     dataGrid.Columns[4].Visibility = Visibility.Hidden;
                 }

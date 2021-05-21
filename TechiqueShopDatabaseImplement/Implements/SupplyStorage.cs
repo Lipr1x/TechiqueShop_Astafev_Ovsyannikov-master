@@ -25,6 +25,8 @@ namespace TechiqueShopDatabaseImplement.Implements
                 {
                     Id = rec.Id,
                     TotalCost = rec.TotalCost,
+                    ComponentId = rec.ComponentId,
+                    SupplyName = rec.SupplyName,
                     Date = rec.Date,
                     SupplyOrders = rec.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
                     CustomerId = rec.CustomerId
@@ -43,6 +45,7 @@ namespace TechiqueShopDatabaseImplement.Implements
 
                 return context.Supplies
                 .Include(rec => rec.Customer)
+                .Include(rec => rec.Component)
                 .Include(rec => rec.SupplyOrders)
                 .ThenInclude(rec => rec.Order)
                 .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.CustomerId == model.CustomerId) ||
@@ -51,6 +54,8 @@ namespace TechiqueShopDatabaseImplement.Implements
                 .Select(rec => new SupplyViewModel
                 {
                     Id = rec.Id,
+                    SupplyName = rec.SupplyName,
+                    ComponentId = rec.ComponentId,
                     TotalCost = rec.TotalCost,
                     Date = rec.Date.Date,
                     SupplyOrders = rec.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
@@ -68,18 +73,21 @@ namespace TechiqueShopDatabaseImplement.Implements
 
             using (var context = new TechiqueShopDatabase())
             {
-                Supply receipt = context.Supplies
+                Supply supply = context.Supplies
                 .Include(rec => rec.Customer)
+                .Include(rec => rec.Component)
                 .Include(rec => rec.SupplyOrders)
                 .ThenInclude(rec => rec.Order)
                 .FirstOrDefault(rec => rec.Date == model.Date || rec.Id == model.Id);
-                return receipt != null ? new SupplyViewModel
+                return supply != null ? new SupplyViewModel
                 {
-                    Id = receipt.Id,
-                    TotalCost = receipt.TotalCost,
-                    Date = receipt.Date,
-                    SupplyOrders = receipt.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
-                    CustomerId = receipt.CustomerId
+                    Id = supply.Id,
+                    SupplyName = supply.SupplyName,
+                    ComponentId = supply.ComponentId,
+                    TotalCost = supply.TotalCost,
+                    Date = supply.Date,
+                    SupplyOrders = supply.SupplyOrders.ToDictionary(recRC => recRC.OrderId, recRC => (recRC.Order?.OrderName, recRC.Sum)),
+                    CustomerId = supply.CustomerId
                 } : null;
             }
         }
@@ -148,8 +156,10 @@ namespace TechiqueShopDatabaseImplement.Implements
 
         private Supply CreateModel(SupplyBindingModel model, Supply sypply, TechiqueShopDatabase context)
         {
+            sypply.SupplyName = model.SupplyName;
             sypply.TotalCost = model.TotalCost;
             sypply.Date = model.Date;
+            sypply.ComponentId = model.ComponentId;
             sypply.CustomerId = (int)model.CustomerId;
 
             if (sypply.Id == 0)

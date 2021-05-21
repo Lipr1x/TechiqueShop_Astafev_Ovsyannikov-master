@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechiqueShopViewCustomer"
         mc:Ignorable="d"
-        Title="LinkingSupplyForm" Height="332.34" Width="496.56" Loaded="LinkingSupplyForm_Loaded">
+        Title="LinkingSupplyForm" Height="123.854" Width="265.367" Loaded="LinkingSupplyForm_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="ItemsControl.FontFamily" Value="Verdana" />
@@ -50,25 +50,38 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <ListBox  x:Name="SelectedComponents" Height="190" Width="220" >
-                    </ListBox>
-                </Border>
-                <StackPanel VerticalAlignment="Center">
-                    <Button x:Name="RefundButton" Margin="0 15" FontFamily="Marlett" FontSize="20" Content="4" Click="RefundButton_Click"/>
-                    <Button x:Name="AddButton" Margin="0 15" FontFamily="Marlett" FontSize="20" Content="3" Click="AddButton_Click" />
-                </StackPanel>
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <ListBox x:Name="CanSelectedComponents" DisplayMemberPath="ComponentName" Height="190" Width="220">
-                    </ListBox>
-                </Border>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 5 40 5">
-                <Button x:Name="SaveButton" Margin="5 0" Width="90" Click="SaveButton_Click">Сохранить</Button>
-                <Button x:Name="CancelButton" Width="65" Click="CancelButton_Click">Отмена</Button>
-            </StackPanel>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Поставка:" />
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Комплектующая:" />
+        <ComboBox x:Name="ComboBoxSupply" Grid.Row="0" Grid.Column="1" >
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#A4B9CA" />
+            </ComboBox.Resources>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding SupplyName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox x:Name="ComboBoxComponent" Grid.Row="1" Grid.Column="1" SelectedIndex="0" >
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#A4B9CA" />
+            </ComboBox.Resources>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ComponentName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="buttonLinking" Content="Привязать" Grid.Row="2" Grid.Column="0" Click="buttonLinking_Click"/>
+        <Button x:Name="buttonCancel" Content="Отмена" Grid.Row="2" Grid.Column="1" Click="buttonCancel_Click"/>
     </Grid>
 </Window>

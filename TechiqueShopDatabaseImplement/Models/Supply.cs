@@ -9,14 +9,15 @@ namespace TechiqueShopDatabaseImplement.Models
     public class Supply // поставка
     {
         public int Id { get; set; }
+        public string SupplyName { get; set; }
         public int CustomerId { get; set; }
+        public int? ComponentId { get; set; }
         [Required]
         public decimal TotalCost { get; internal set; }
         public DateTime Date { get; set; }
         [ForeignKey("SupplyId")]
-        public virtual List<SupplyComponent> SupplyComponents { get; set; }
-        [ForeignKey("SupplyId")]
         public virtual List<SupplyOrder> SupplyOrders { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual Component Component { get; set; }
     }
 }

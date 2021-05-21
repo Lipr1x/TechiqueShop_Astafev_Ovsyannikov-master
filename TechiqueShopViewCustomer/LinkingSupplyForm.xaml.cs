@@ -22,89 +22,67 @@ namespace TechiqueShopViewCustomer
     /// </summary>
     public partial class LinkingSupplyForm : Window
     {
-        private readonly SupplyLogic supply_logic;
-        private readonly ComponentLogic component_logic;
-        public int Id { set { id = value; } }
-        private int? id;
-        private Dictionary<int, string> supplyComponents;
-        public LinkingSupplyForm(SupplyLogic _supply_logic, ComponentLogic _component_logic)
+        [Dependency]
+        public IUnityContainer Container { get; set; }
+
+        public int ComponentId { get { return (int)(ComboBoxComponent.SelectedItem as ComponentViewModel).Id; } }
+
+        public int SupplyId { get { return (ComboBoxSupply.SelectedItem as SupplyViewModel).Id; } set { supplyId = value; } }
+
+        public int CustomerId { set { customerId = value; } }
+
+        private int? supplyId;
+
+        private int? customerId;
+
+        private readonly ComponentLogic logicC;
+
+        private readonly SupplyLogic logicS;
+
+        public LinkingSupplyForm(ComponentLogic logicC, SupplyLogic logicS)
         {
             InitializeComponent();
-            this.supply_logic = _supply_logic;
-            this.component_logic = _component_logic;;
+            this.logicC = logicC;
+            this.logicS = logicS;
         }
+
         private void LinkingSupplyForm_Loaded(object sender, RoutedEventArgs e)
         {
-            if (id.HasValue)
+            var listVisit = logicC.Read(null);
+            if (listVisit != null)
             {
-                try
-                {
-                    SupplyViewModel view = supply_logic.Read(new SupplyBindingModel
-                    {
-                        Id = id.Value
-                    })?[0];
-                    supplyComponents = view.SupplyComponents;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK,
-               MessageBoxImage.Error);
-                }
+                ComboBoxComponent.ItemsSource = listVisit;
             }
-            else
+            var listSupply = logicS.Read(new SupplyBindingModel { CustomerId = customerId });
+            if (listSupply != null)
             {
-                supplyComponents = new Dictionary<int, string>();
+                ComboBoxSupply.ItemsSource = listSupply;
             }
-            LoadData();
-        }
-        private void LoadData()
-        {
-            try
+            if (supplyId != null)
             {
-                if (supplyComponents != null)
-                {
-                    SelectedComponents.Items.Clear();
-                    //dataGridView.Columns[0].Visible = false;
-                    foreach (var comp in supplyComponents)
-                    {
-                        SelectedComponents.Items.Add(comp.Value);
-                    }
-                }
-                CanSelectedComponents.Items.Clear();
-                foreach (var m in component_logic.Read(null))
-                {
-                    if (supplyComponents.Values.Where(rec => rec == m.ComponentName).ToList().Count == 0)
-                    {
-                        CanSelectedComponents.Items.Add(m);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK,
-               MessageBoxImage.Error);
+                ComboBoxSupply.SelectedItem = SetValueDistribution(supplyId.Value);
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void buttonLinking_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
-            Close();
-        }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (supplyComponents == null || supplyComponents.Count == 0)
+            if (ComboBoxComponent.SelectedValue == null)
             {
-                MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButton.OK,
-               MessageBoxImage.Error);
+                MessageBox.Show("Выберите компонент", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (ComboBoxSupply.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите поставку", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             try
             {
-                supply_logic.Linking(new SupplyBindingModel
+                logicS.Linking(new SupplyLinkingBindingModel
                 {
-                    SupplyComponents = supplyComponents
+                    ComponentId = (int)(ComboBoxComponent.SelectedItem as ComponentViewModel).Id,
+                    SupplyId = (int)(ComboBoxSupply.SelectedValue as SupplyViewModel).Id
                 });
                 MessageBox.Show("Привязка прошла успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
                 DialogResult = true;
@@ -112,28 +90,26 @@ namespace TechiqueShopViewCustomer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK,
-               MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void RefundButton_Click(object sender, RoutedEventArgs e)
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedComponents.SelectedItems.Count == 1)
-            {
-                supplyComponents.Remove(supplyComponents.Where(rec => rec.Value == (string)SelectedComponents.SelectedItem).ToList()[0].Key);
-                LoadData();
-            }
+            DialogResult = false;
+            Close();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private SupplyViewModel SetValueDistribution(int value)
         {
-            if (CanSelectedComponents.SelectedItems.Count == 1)
+            foreach (var item in ComboBoxSupply.Items)
             {
-                supplyComponents.Add((int)((ComponentViewModel)CanSelectedComponents.SelectedItem).Id
-                    , ((ComponentViewModel)CanSelectedComponents.SelectedItem).ComponentName);
-                LoadData();
+                if ((item as SupplyViewModel).Id == value)
+                {
+                    return item as SupplyViewModel;
+                }
             }
+            return null;
         }
     }
 }

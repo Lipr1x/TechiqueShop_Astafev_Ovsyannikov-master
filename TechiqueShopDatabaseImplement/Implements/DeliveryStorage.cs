@@ -49,6 +49,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 .Select(rec => new DeliveryViewModel
                 {
                     Id = rec.Id,
+                    DeliveryName = rec.DeliveryName,
                     Date = rec.Date,
                     DeliveryComponents = rec.DeliveryComponents.ToDictionary(recDC => recDC.ComponentId, recDC => (recDC.Component?.ComponentName, recDC.Count)),
                     ProviderId = rec.ProviderId

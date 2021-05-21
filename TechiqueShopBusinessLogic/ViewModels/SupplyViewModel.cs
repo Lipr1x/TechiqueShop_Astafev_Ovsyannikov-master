@@ -12,6 +12,8 @@ namespace TechiqueShopBusinessLogic.BindingModels
         [DisplayName("Номер поставки")]
         public int Id { get; set; }
         public int CustomerId { get; set; }
+        [DisplayName("Поставка")]
+        public string SupplyName { get; set; }
 
         [DisplayName("Цена")]
         public decimal TotalCost { get; set; }
@@ -19,6 +21,6 @@ namespace TechiqueShopBusinessLogic.BindingModels
         [DisplayName("Дата поставки")]
         public DateTime Date { get; set; }
         public Dictionary<int, (string, int)> SupplyOrders { get; set; }
-        public Dictionary<int, string> SupplyComponents { get; set; }
+        public int? ComponentId { get; set; }
     }
 }

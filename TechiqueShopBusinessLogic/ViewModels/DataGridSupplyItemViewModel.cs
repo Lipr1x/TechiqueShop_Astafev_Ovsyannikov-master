@@ -10,7 +10,7 @@ namespace TechiqueShopBusinessLogic.ViewModels
         public int Id { get; set; }
 
         [DisplayName("Заказ")]
-        public string CosmeticName { get; set; }
+        public string OrderName { get; set; }
 
         [DisplayName("Стоимость")]
         public decimal? Price { get; set; }

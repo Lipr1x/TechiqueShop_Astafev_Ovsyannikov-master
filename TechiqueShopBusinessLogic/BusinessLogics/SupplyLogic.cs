@@ -59,31 +59,41 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             }
             _supplyStorage.Delete(model);
         }
-        public void Linking(SupplyBindingModel model)
+        public void Linking(SupplyLinkingBindingModel model)
         {
             var supply = _supplyStorage.GetElement(new SupplyBindingModel
             {
-                Id = model.Id
+                Id = model.SupplyId
             });
 
-            var components = _componentStorage.GetElement(new ComponentBindingModel
+            var component = _componentStorage.GetElement(new ComponentBindingModel
             {
-                Id = model.Id
+                Id = model.ComponentId
             });
 
-            if (components == null)
+            if (supply == null)
             {
-                throw new Exception("Не найдены компоненты");
+                throw new Exception("Не найдена поставка");
+            }
+
+            if (component == null)
+            {
+                throw new Exception("Не найден компонент");
+            }
+
+            if (supply.ComponentId.HasValue)
+            {
+                throw new Exception("Данная выдача уже привязана к посещению");
             }
 
             _supplyStorage.Update(new SupplyBindingModel
             {
                 Id = supply.Id,
                 Date = supply.Date,
+                SupplyName = supply.SupplyName,
                 SupplyOrders = supply.SupplyOrders,
                 CustomerId = supply.CustomerId,
-                SupplyComponents = model.SupplyComponents,
-                TotalCost = supply.TotalCost
+                ComponentId = model.ComponentId
             });
         }
     }

@@ -23,5 +23,40 @@ namespace TechiqueShopViewCustomer
         {
             InitializeComponent();
         }
+
+        private void buttonAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonUpd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonDel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonRef_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonWord_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonExcel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

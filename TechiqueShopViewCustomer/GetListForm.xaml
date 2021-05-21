@@ -50,17 +50,24 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel>
-            <Border Margin="5" Height="300" BorderBrush="Black" BorderThickness="1">
-                <ListBox x:Name="CanSelectedComponentListBox" SelectionMode="Multiple">
-                </ListBox>
-            </Border>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Width="150" Margin="5" >Отобразить</Button>
-                <Button Width="150" Margin="5">Word</Button>
-                <Button Width="150"  Margin="5">Excel</Button>
-                <Button Width="150" Margin="5" >Отмена</Button>
+        <StackPanel Orientation="Horizontal">
+            <DataGrid x:Name="dataGrid" Width="560" Height="300" VerticalAlignment="Top" Margin="5"  ColumnWidth="*" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="Поставки"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel>
+                <Button x:Name="buttonAdd" Width="100" Margin="10" Content="Создать" Click="buttonAdd_Click"/>
+                <Button x:Name="buttonUpd" Width="100" Margin="10" Content="Изменить" Click="buttonUpd_Click"/>
+                <Button x:Name="buttonDel" Width="100" Margin="10" Content="Удалить" Click="buttonDel_Click"/>
+                <Button x:Name="buttonRef" Width="100" Margin="10" Content="Обновить" Click="buttonRef_Click"/>
             </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button x:Name="buttonWord" Content="Word" Width="150" Margin="10" Click="buttonWord_Click"/>
+            <Button x:Name="buttonExcel" Content="Excel" Width="150" Margin="10"  Click="buttonExcel_Click"/>
+            <Button x:Name="buttonCancel" Content="Отмена" Width="150" Margin="10"  Click="buttonCancel_Click"/>
         </StackPanel>
     </Grid>
 </Window>
