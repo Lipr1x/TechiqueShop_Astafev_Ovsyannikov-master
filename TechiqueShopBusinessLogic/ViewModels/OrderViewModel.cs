@@ -16,5 +16,6 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public string OrderName { get; set; }
         [DisplayName("Стоимость")]
         public decimal Price { get; set; }
+        public Dictionary<int, (string, int)> OrderSupplies { get; set; }
     }
 }
