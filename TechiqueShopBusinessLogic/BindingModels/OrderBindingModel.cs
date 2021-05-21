@@ -10,5 +10,9 @@ namespace TechiqueShopBusinessLogic.BindingModels
         public int? CustomerId { get; set; }
         public string OrderName { get; set; }
         public decimal Price { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo{ get; set; }
+
+        public Dictionary<int, (string, int)> OrderSupplies { get; set; }
     }
 }

@@ -75,20 +75,20 @@ namespace TechiqueShopViewProvider
         }
         private void WordButton_Click(object sender, RoutedEventArgs e)
         {
-            //using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
-            //{
-            //    if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //    {
-            //        List<String> selected_components = new List<string>();
-            //        foreach (var item in CanSelectedComponentListBox.SelectedItems)
-            //        {
-            //            selected_components.Add(item.ToString());
-            //        }
-            //        list_logic.SaveComponentsToWordFile(new GetListBindingModel { FileName = dialog.FileName, Components = selected_components });
-            //        System.Windows.MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK,
-            //   MessageBoxImage.Information);
-            //    }
-            //}
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    List<String> selected_components = new List<string>();
+                    foreach (var item in CanSelectedComponentListBox.SelectedItems)
+                    {
+                        selected_components.Add(item.ToString());
+                    }
+                    list_logic.SaveComponentsToWordFile(new GetListBindingModel { FileName = dialog.FileName, Components = selected_components });
+                    System.Windows.MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK,
+               MessageBoxImage.Information);
+                }
+            }
         }
 
         private void ExcelButton_Click(object sender, RoutedEventArgs e)

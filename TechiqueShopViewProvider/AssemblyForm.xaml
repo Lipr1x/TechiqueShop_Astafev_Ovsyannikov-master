@@ -62,6 +62,7 @@
             <Button x:Name="ChangeButton" Margin="5" Click="ChangeButton_Click">Изменить</Button>
             <Button x:Name="DeleteButton" Margin="5" Click="DeleteButton_Click">Удалить</Button>
             <Button x:Name="UpdateButton" Margin="5" Click="UpdateButton_Click">Обновить</Button>
+            <Button x:Name="LinkingButton" Margin="5" Click="LinkingButton_Click">Привязать</Button>
         </StackPanel>
     </Grid>
 </Window>

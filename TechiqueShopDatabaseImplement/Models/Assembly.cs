@@ -9,6 +9,7 @@ namespace TechiqueShopDatabaseImplement.Models
     public class Assembly //сборка
     {
         public int Id { get; set; }
+        public int? OrderId { get; set; }
         public int ProviderId { get; set; }
         [Required]
         public string AssemblyName { get; set; }

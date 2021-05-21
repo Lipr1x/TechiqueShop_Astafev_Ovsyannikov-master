@@ -30,7 +30,7 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
             foreach (var assebmly in assemblies)
             {
                 bool have_components = true;
-                foreach (String component in model.Components)
+                foreach (var component in model.Components)
                 {
                     //if (assebmly.AssemblyComponents.Values.FirstOrDefault(rec => rec == component) == null)
                     //{
@@ -60,9 +60,9 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
         /// Сохранение компонент в файл-Word
         /// </summary>
         /// <param name="model"></param>
-        public WordExcelInfo SaveComponentsToWordFile(GetListBindingModel model)
+        public WordExcelInfoProvider SaveComponentsToWordFile(GetListBindingModel model)
         {
-            var file = new WordExcelInfo
+            var file = new WordExcelInfoProvider
             {
                 FileName = "filename",
                 Title = "something",
@@ -77,7 +77,7 @@ namespace TechiqueShopBusinessLogic.BusinessLogics
         /// <param name="model"></param>
         public void SaveDishComponentToExcelFile(GetListBindingModel model)
         {
-            SaveToExcel.CreateDocument(new WordExcelInfo
+            SaveToExcelProvider.CreateDocument(new WordExcelInfoProvider
             {
                 FileName = model.FileName,
                 Title = "Список техники",

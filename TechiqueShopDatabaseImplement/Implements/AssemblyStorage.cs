@@ -25,6 +25,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 .Select(rec => new AssemblyViewModel
                 {
                     Id = rec.Id,
+                    OrderId = rec.OrderId,
                     Price = rec.Price,
                     AssemblyName = rec.AssemblyName,
                     AssemblyComponents = rec.AssemblyComponents.ToDictionary(recRC => recRC.ComponentId, recRC => (recRC.Component?.ComponentName, recRC.Count)),
@@ -52,6 +53,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 .Select(rec => new AssemblyViewModel
                 {
                     Id = rec.Id,
+                    OrderId = rec.OrderId,
                     Price = rec.Price,
                     AssemblyName = rec.AssemblyName,
                     AssemblyComponents = rec.AssemblyComponents.ToDictionary(recRC => recRC.ComponentId, recRC => (recRC.Component?.ComponentName, recRC.Count)),
@@ -77,6 +79,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 return assem != null ? new AssemblyViewModel
                 {
                     Id = assem.Id,
+                    OrderId = assem.OrderId,
                     Price = assem.Price,
                     AssemblyName = assem.AssemblyName,
                     AssemblyComponents = assem.AssemblyComponents.ToDictionary(recRC => recRC.ComponentId, recRC => (recRC.Component?.ComponentName, recRC.Count)),
@@ -154,6 +157,7 @@ namespace TechiqueShopDatabaseImplement.Implements
                 throw new Exception($"Название сборки должно быть длиной до { _AssemblyNameMaxLength } ");
             }
             sypply.AssemblyName = model.AssemblyName;
+            sypply.OrderId = model.OrderId;
             sypply.Price = model.Price;
             sypply.ProviderId = (int)model.ProviderId;
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechiqueShopDatabaseImplement;
 
 namespace TechiqueShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(TechiqueShopDatabase))]
-    partial class TechiqueShopDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20210521013336_LinkProvider")]
+    partial class LinkProvider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,28 +308,42 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ComponentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SupplyName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ComponentId");
-
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Supplies");
+                });
+
+            modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.SupplyComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SupplyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("SupplyId");
+
+                    b.ToTable("SupplyComponents");
                 });
 
             modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.SupplyOrder", b =>
@@ -453,13 +469,24 @@ namespace TechiqueShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.Supply", b =>
                 {
-                    b.HasOne("TechiqueShopDatabaseImplement.Models.Component", "Component")
-                        .WithMany()
-                        .HasForeignKey("ComponentId");
-
                     b.HasOne("TechiqueShopDatabaseImplement.Models.Customer", "Customer")
                         .WithMany("Supplies")
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TechiqueShopDatabaseImplement.Models.SupplyComponent", b =>
+                {
+                    b.HasOne("TechiqueShopDatabaseImplement.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TechiqueShopDatabaseImplement.Models.Supply", "Supply")
+                        .WithMany("SupplyComponents")
+                        .HasForeignKey("SupplyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

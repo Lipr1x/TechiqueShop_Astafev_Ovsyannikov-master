@@ -7,13 +7,13 @@ using System.Text;
 
 namespace TechiqueShopBusinessLogic.FileModels
 {
-    static class SaveToWord
+    static class SaveToWordProvider
     {
         /// <summary>
         /// Создание документа
         /// </summary>
         /// <param name="info"></param>
-        public static void CreateDocument(WordExcelInfo info)
+        public static void CreateDocument(WordExcelInfoProvider info)
         {
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
             {
