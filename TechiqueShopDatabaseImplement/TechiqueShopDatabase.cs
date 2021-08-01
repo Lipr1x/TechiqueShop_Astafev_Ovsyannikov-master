@@ -17,17 +17,17 @@ namespace TechiqueShopDatabaseImplement
             base.OnConfiguring(optionsBuilder);
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Provider>().HasIndex(u => u.Telephone).IsUnique();
-        //    modelBuilder.Entity<Provider>().HasIndex(u => u.Email).IsUnique();
-        //    modelBuilder.Entity<Component>().HasIndex(u => u.ComponentName).IsUnique();
-        //    modelBuilder.Entity<Assembly>().HasIndex(u => u.AssemblyName).IsUnique();
-        //    modelBuilder.Entity<Customer>().HasIndex(u => u.Telephone).IsUnique();
-        //    modelBuilder.Entity<Customer>().HasIndex(u => u.Email).IsUnique();
-        //    modelBuilder.Entity<Order>().HasIndex(u => u.OrderName);
-        //    modelBuilder.Entity<Supply>().HasIndex(u => u.SupplyName);
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Provider>().HasIndex(u => u.Telephone).IsUnique();
+            modelBuilder.Entity<Provider>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<Component>().HasIndex(u => u.ComponentName).IsUnique();
+            modelBuilder.Entity<Assembly>().HasIndex(u => u.AssemblyName).IsUnique();
+            modelBuilder.Entity<Customer>().HasIndex(u => u.Telephone).IsUnique();
+            modelBuilder.Entity<Customer>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<Order>().HasIndex(u => u.OrderName);
+            modelBuilder.Entity<Supply>().HasIndex(u => u.SupplyName);
+        }
 
         public virtual DbSet<Provider> Providers { set; get; }
         public virtual DbSet<Customer> Customers { set; get; }

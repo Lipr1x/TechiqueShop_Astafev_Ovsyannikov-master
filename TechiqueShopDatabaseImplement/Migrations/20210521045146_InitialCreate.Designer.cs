@@ -10,7 +10,7 @@ using TechiqueShopDatabaseImplement;
 namespace TechiqueShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(TechiqueShopDatabase))]
-    [Migration("20210521011157_InitialCreate")]
+    [Migration("20210521045146_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace TechiqueShopDatabaseImplement.Migrations
                     b.Property<string>("AssemblyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

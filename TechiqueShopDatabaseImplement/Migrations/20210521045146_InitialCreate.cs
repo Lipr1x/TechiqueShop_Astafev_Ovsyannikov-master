@@ -72,6 +72,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(nullable: true),
                     ProviderId = table.Column<int>(nullable: false),
                     AssemblyName = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(nullable: false)
@@ -153,7 +154,7 @@ namespace TechiqueShopDatabaseImplement.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

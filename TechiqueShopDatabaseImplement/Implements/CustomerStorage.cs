@@ -126,22 +126,22 @@ namespace TechiqueShopDatabaseImplement.Implements
         }
         private Customer CreateModel(CustomerBindingModel model, Customer customer)
         {
-            //if (model.CustomerName.Length > _CustomerNameMaxLength || model.CustomerSurname.Length > _CustomerSurnameMaxLength || model.Patronymic.Length > _PatronymicMaxLength)
-            //{
-            //    throw new Exception($"Имя/Фамилия/отчество должно быть меньше {_CustomerNameMaxLength}/{_CustomerSurnameMaxLength}/{_PatronymicMaxLength} ");
-            //}
-            //if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength)
-            //{
-            //    throw new Exception($"Пароль должен быть длиной от {_passwordMinLength} до { _passwordMaxLength } ");
-            //}
-            //if (model.Email.Length > _emailMaxLength || !Regex.IsMatch(model.Email, @"^[A-Za-z0-9]+(?:[._%+-])?[A-Za-z0-9._-]+[A-Za-z0-9]@[A-Za-z0-9]+(?:[.-])?[A-Za-z0-9._-]+\.[A-Za-z]{2,6}$"))
-            //{
-            //    throw new Exception($"Мэйл должен быть длиной до { _emailMaxLength } ");
-            //}
-            //if (!Regex.IsMatch(model.Telephone, @"^\d{2,11}$"))
-            //{
-            //    throw new Exception($"Телефон должен быть длиной до 11 цифр");
-            //}
+            if (model.CustomerName.Length > _CustomerNameMaxLength || model.CustomerSurname.Length > _CustomerSurnameMaxLength || model.Patronymic.Length > _PatronymicMaxLength)
+            {
+                throw new Exception($"Имя/Фамилия/отчество должно быть меньше {_CustomerNameMaxLength}/{_CustomerSurnameMaxLength}/{_PatronymicMaxLength} ");
+            }
+            if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength)
+            {
+                throw new Exception($"Пароль должен быть длиной от {_passwordMinLength} до { _passwordMaxLength } ");
+            }
+            if (model.Email.Length > _emailMaxLength || !Regex.IsMatch(model.Email, @"^[A-Za-z0-9]+(?:[._%+-])?[A-Za-z0-9._-]+[A-Za-z0-9]@[A-Za-z0-9]+(?:[.-])?[A-Za-z0-9._-]+\.[A-Za-z]{2,6}$"))
+            {
+                throw new Exception($"Мэйл должен быть длиной до { _emailMaxLength } ");
+            }
+            if (!Regex.IsMatch(model.Telephone, @"^\d{2,11}$"))
+            {
+                throw new Exception($"Телефон должен быть длиной до 11 цифр");
+            }
 
             customer.CustomerName = model.CustomerName;
             customer.CustomerSurname = model.CustomerSurname;

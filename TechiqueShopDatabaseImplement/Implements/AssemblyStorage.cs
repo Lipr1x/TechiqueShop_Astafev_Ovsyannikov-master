@@ -9,7 +9,6 @@ using TechiqueShopDatabaseImplement.Models;
 
 namespace TechiqueShopDatabaseImplement.Implements
 {
-    
     public class AssemblyStorage : IAssemblyStorage
     {
         private readonly int _AssemblyNameMaxLength = 50;
